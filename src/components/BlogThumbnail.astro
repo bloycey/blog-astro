@@ -1,0 +1,75 @@
+---
+import redScribble from "../images/scribble_red.svg";
+import darkScribble from "../images/scribble_dark.svg";
+const { date, title, description, url } = Astro.props;
+---
+
+<article>
+	<a href={url}>
+		<img src={darkScribble} class="black" />
+		<img src={redScribble} class="red" />
+		<div>
+			<span class="mono text-sm uppercase">{new Date(date).toDateString()}</span>
+			<h2 class="text-lg">{title}</h2>
+		</div>
+		<p>
+			{description}
+		</p>
+	</a>
+</article>
+
+<style>
+	a {
+		text-decoration: none;
+		color: var(--black);
+		position: relative;
+		display: block;
+	}
+
+	img {
+		position: absolute;
+		left: -3rem;
+		top: 1.25rem;
+	}
+	img.red {
+		display: none;
+	}
+
+	span {
+		color: var(--red);
+		display: block;
+		margin-bottom: 0.25rem;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+	}
+
+	a:hover img.black {
+		display: none;
+	}
+
+	a:hover img.red {
+		display: inline;
+	}
+
+	a:hover h2 {
+		color: var(--red);
+	}
+
+	a:hover span {
+		color: var(--black);
+	}
+
+	@media (max-width: 767px) {
+		a h2 {
+			font-size: 1.5rem;
+		}
+		a img {
+			display: none;
+		}
+		a:hover img {
+			display: none !important;
+		}
+	}
+</style>

@@ -1,0 +1,171 @@
+<footer>
+	<section class="subscribe-wrapper">
+		<div class="container text-center">
+			<div class="subscribe-header">
+				<div class="main-title">
+					<h3>There's more where that came from...</h3>
+					<p class="subscribe-subtitle">
+						Subscribe for nerdy stuff in your inbox
+					</p>
+				</div>
+				<p class="subscribed-msg">🎉 You've been subscribed!</p>
+			</div>
+			<form id="subscribe-form" name="subscribe" data-netlify="true">
+				<fieldset>
+					<label for="name-field">Name:</label>
+					<input
+						type="text"
+						name="name"
+						required="true"
+						id="name-field"
+						placeholder="Colonel Mustard"
+					/>
+				</fieldset>
+				<fieldset>
+					<label for="email-field">Email:</label>
+					<input
+						type="email"
+						name="email"
+						id="email-field"
+						required="true"
+						placeholder="thecolonel@mustard.com"
+					/>
+				</fieldset>
+				<input type="submit" value="Subscribe" />
+			</form>
+		</div>
+	</section>
+	<p id="response-text"></p>
+</footer>
+
+<style>
+	.subscribe-wrapper {
+		background-color: var(--red);
+		color: #ffffff;
+		padding: 2rem 0;
+	}
+
+	.subscribe-subtitle {
+		margin-bottom: 1rem;
+		font-weight: 300;
+	}
+
+	#subscribe-form {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 0.5rem;
+		flex-direction: column;
+	}
+
+	.subscribe-header {
+		position: relative;
+		height: 90px;
+	}
+
+	@media (min-width: 767px) {
+		.subscribe-header {
+			height: 150px;
+		}
+
+		.subscribe-subtitle {
+			font-size: 0.75rem;
+		}
+	}
+
+	.subscribe-header .main-title,
+	.subscribe-header .subscribed-msg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+		transition: opacity 1s ease;
+	}
+
+	.subscribe-header .main-title {
+		opacity: 1;
+	}
+
+	.subscribe-header.subscribed .main-title {
+		opacity: 0;
+	}
+
+	.subscribe-header.subscribed .subscribed-msg {
+		opacity: 1;
+	}
+
+	.subscribed-msg {
+		opacity: 0;
+	}
+
+	#subscribe-form > * {
+		width: 100%;
+	}
+
+	.subscribe-wrapper input[type="text"],
+	.subscribe-wrapper input[type="email"] {
+		height: 3rem;
+		border: none;
+		box-shadow: none;
+		padding: 0.5rem;
+		font-size: 1rem;
+	}
+
+	.subscribe-wrapper input[type="submit"] {
+		background-color: #ff6b86;
+		border: none;
+		box-shadow: none;
+		padding: 0.5rem 1rem;
+		color: #ffffff;
+		height: 2.5rem;
+		font-size: 1rem;
+	}
+
+	.subscribe-wrapper input[type="submit"][loading="true"] {
+		cursor: not-allowed;
+		position: relative;
+		animation: loading 5s linear infinite;
+		background-image: linear-gradient(
+			45deg,
+			#ff6b86 25%,
+			#f5a098 25%,
+			#f5a098 50%,
+			#ff6b86 50%,
+			#ff6b86 75%,
+			#f5a098 75%,
+			#f5a098 100%
+		);
+		background-size: 0.75rem 0.75rem;
+	}
+
+	@keyframes loading {
+		from {
+			background-position: 0 0;
+		}
+		to {
+			background-position: 100% 0;
+		}
+	}
+
+	@media (min-width: 767px) {
+		.subscribe-wrapper input[type="text"],
+		.subscribe-wrapper input[type="email"] {
+			height: 2rem;
+			font-size: 0.75rem
+		}
+
+		#subscribe-form {
+			flex-direction: row;
+		}
+		.subscribe-wrapper input[type="submit"] {
+			height: 2rem;
+			font-size: 0.75rem;
+		}
+	}
+
+	.subscribe-wrapper input[type="submit"]:hover {
+		filter: brightness(90%);
+		cursor: pointer;
+	}
+</style>

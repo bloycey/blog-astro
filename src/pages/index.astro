@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogThumbnail from '../components/BlogThumbnail.astro';
+import andrewImg from "../images/andrew.svg";
+
+const posts = await Astro.glob("./posts/*.mdx")
+const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
+---
+
+<BaseLayout title="Hot takes on web tech">
+	<div class="container">
+		<section class="hero-wrapper">
+			<h1>Hot takes on web tech</h1>
+			<img src={andrewImg} alt="A cartoon of Andrew Bloyce - the author of this blog." />
+		</section>
+		<ul class="blogs-list">
+			{nonDraftPosts.sort((a, b) => Number(new Date(b.frontmatter.date)) - Number(new Date(a.frontmatter.date))).map(post => {
+				const { date, title, description } = post.frontmatter;
+				return (
+					<li>
+						<BlogThumbnail date={date} title={title} description={description} url={post.url}/>
+					</li>
+				)
+			})}
+		</ul>
+	</div>
+</BaseLayout>
+
+<style>
+	.hero-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.hero-wrapper h1 {
+		font-size: 2.5rem;
+		width: 100%;
+		line-height: 110%;
+		padding: 2rem 0;
+	}
+
+	.hero-wrapper img {
+		display: none;
+		z-index: 10;
+		transform: translateY(-60px);
+		width: 30%;
+	}
+
+	@media (min-width: 767px) {
+		.hero-wrapper img {
+			display: block;
+		}
+		.hero-wrapper h1 {
+			font-size: 3.5rem;
+			width: 70%;
+			padding: 0;
+		}
+	}
+
+	.blogs-list {
+		padding-left: 0;
+		padding-bottom: 4rem;
+		margin: 0;
+	}
+
+	.blogs-list li {
+		list-style: none;
+		margin-bottom: 2.5rem;
+	}
+</style>

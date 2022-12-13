@@ -1,0 +1,396 @@
+:root {
+	--red: #d43b57;
+	--white: #ffffff;
+	--black: #111111;
+	--line-height: 170%;
+}
+
+/****** RESET ******/
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+	list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+	scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+	max-width: 100%;
+	display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+	html:focus-within {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/****** END RESET *******/
+
+/**** CORE HTML *********/
+
+html {
+	background-image: url("../images/grid-bg.png");
+	font-size: 18px;
+	font-family: "IBM Plex Sans", sans-serif;
+	color: var(--black);
+	background-size: 110px;
+	background-color: var(--white);
+}
+
+/* @media (prefers-color-scheme: dark) {
+	html {
+		background: var(--black);
+		color: var(--white);
+	}
+} */
+
+@media (min-width: 767px) {
+	html {
+		background-size: auto;
+	}
+}
+
+body::-webkit-scrollbar {
+	width: 12px;
+}
+
+html {
+	scrollbar-width: thin;
+	scrollbar-color: var(--red) var(--white);
+}
+
+body::-webkit-scrollbar-track {
+	background: var(--white);
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: var(--red);
+	border-radius: 6px;
+	border: 3px solid var(--white);
+}
+
+@media (min-width: 767px) {
+	html {
+		font-size: 28px;
+	}
+}
+
+::selection {
+	color: var(--white);
+	background: var(--red);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 700;
+	margin: 0;
+	line-height: 120%;
+}
+
+p {
+	margin: 0;
+	line-height: var(--line-height);
+}
+
+input {
+	width: 100%;
+}
+
+a {
+	color: var(--red);
+}
+
+hr {
+	width: 100%;
+	border: 0;
+}
+
+hr:after {
+	content: "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+	white-space: nowrap;
+	overflow: hidden;
+	display: block;
+	text-decoration: underline;
+	text-decoration-style: wavy;
+	color: transparent;
+	text-decoration-color: var(--red);
+}
+
+pre code::before {
+	content: "code";
+	text-transform: uppercase;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--red);
+	padding: 8px 24px;
+	color: #fff;
+	font-family: monospace;
+	border-bottom-right-radius: 10px;
+}
+
+pre code {
+	position: relative;
+	white-space: pre-wrap;
+	font-weight: 400;
+	font-size: 0.75rem;
+	padding: 3rem 2rem 2rem 2rem;
+	display: block;
+	border-radius: 10px;
+	border: 5px solid var(--red);
+	background-color: #fff;
+	line-height: 150%;
+}
+
+blockquote {
+	display: flex;
+	margin: 1rem 0 3rem;
+	margin-left: 0;
+	position: relative;
+	line-height: var(--line-height);
+	font-weight: 600;
+	font-style: italic;
+	font-size: 1.25rem;
+}
+
+@media (min-width: 767px) {
+	blockquote::before {
+		content: url("../images/scribble_red.svg");
+		position: absolute;
+		left: -3.5rem;
+	}
+}
+
+form {
+	margin: 0;
+	font-family: "IBM Plex Sans", sans-serif;
+	font-size: 0.75rem;
+}
+
+fieldset {
+	text-align: left;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+label {
+	text-transform: uppercase;
+	letter-spacing: 0.2px;
+}
+
+@media (min-width: 767px) {
+	label {
+		font-size: 0.5rem;
+	}
+}
+
+fieldset[type="text"] label {
+	display: block;
+	margin-bottom: 0.125rem;
+}
+
+/****UTLITIES*****/
+
+.mono {
+	font-family: "Space Mono", monospace;
+	font-weight: 700;
+}
+
+.hover-red:hover {
+	color: var(--red);
+}
+
+.text-sm {
+	font-size: 0.75rem;
+}
+
+.text-lg {
+	font-size: 1.5rem;
+}
+
+.uppercase {
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.container {
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.display-none {
+	display: none;
+}
+
+/****** FIXES *******/
+
+.magic-grid > * {
+	grid-column: 2;
+}
+
+.magic-grid figure {
+	width: 100%;
+	grid-column: 1 / 4;
+	text-align: center;
+}
+
+.blog {
+	margin-bottom: 4rem;
+}
+
+.blog blockquote p {
+	margin-bottom: 0;
+}
+
+.blog h1 {
+	margin-top: 4rem;
+	margin-bottom: 0.5rem;
+	font-size: 2rem;
+}
+
+.blog h2 {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+
+.blog p {
+	margin-bottom: 1.5rem;
+}
+
+.blog figure {
+	margin: 0 0 2.5rem 0;
+}
+
+@media (min-width: 767px) {
+	.blog h1 {
+		font-size: 2.5rem;
+	}
+
+	.blog p {
+		margin-bottom: 2rem;
+	}
+}
+
+.blog a {
+	display: inline;
+	position: relative;
+	text-decoration: none;
+	color: inherit;
+	margin: 0 0px;
+	transition: margin 0.25s;
+	background-color: transparent;
+}
+
+.blog a svg {
+	width: 140%;
+	position: absolute;
+	left: 50%;
+	bottom: -30px;
+	transform: translate(-50%, -10px) translateZ(0);
+	fill: none;
+	stroke: var(--red);
+	stroke-linecap: round;
+	stroke-width: 2px;
+	stroke-dasharray: 69px 278px;
+	stroke-dashoffset: 361px;
+	transition: stroke 0.25s ease 0s, stroke-dasharray 0.2s;
+}
+
+.blog a:focus {
+	outline: none;
+}
+
+.blog a:hover svg,
+.blog a:focus svg {
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -55%) translateZ(0);
+	stroke-dasharray: 180px 278px;
+	transition: stroke 0.25s ease 0.1s, stroke-dasharray 0.2s;
+}
+
+@media (max-width: 767px) {
+	a,
+	.blog a {
+		text-decoration: underline;
+		color: var(--red);
+		text-decoration: underline;
+		text-decoration-style: wavy;
+		text-decoration-color: var(--red);
+	}
+
+	.blog a svg {
+		display: none;
+	}
+	.blog a:hover {
+		margin: 0;
+	}
+}
