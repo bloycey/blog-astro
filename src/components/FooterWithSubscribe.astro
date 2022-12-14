@@ -10,12 +10,14 @@
 				</div>
 				<p class="subscribed-msg">🎉 You've been subscribed!</p>
 			</div>
-			<form id="subscribe-form" name="subscribe" data-netlify="true">
+			<form id="subscribe-form" name="subscribe" action="https://buttondown.email/api/emails/embed-subscribe/bloycey" method="post" target="popupwindow" class="embeddable-buttondown-form">
+				<input type="hidden" value="1" name="embed" />
 				<fieldset>
 					<label for="name-field">Name:</label>
 					<input
+						id="name"
 						type="text"
-						name="name"
+						name="metadata__name"
 						required="true"
 						id="name-field"
 						placeholder="Colonel Mustard"
