@@ -1,5 +1,6 @@
 :root {
 	--red: #d43b57;
+	--dark-red: #bc2944;
 	--white: #ffffff;
 	--black: #111111;
 	--line-height: 170%;
@@ -12,6 +13,10 @@
 *::before,
 *::after {
 	box-sizing: border-box;
+}
+
+:focus {
+	outline: var(--red) 2px solid;
 }
 
 /* Remove default margin */
@@ -252,7 +257,30 @@ fieldset[type="text"] label {
 	margin-bottom: 0.125rem;
 }
 
+[loading="true"] {
+	cursor: not-allowed;
+	position: relative;
+	animation: loading 5s linear infinite;
+	background-image: linear-gradient(
+		45deg,
+		#ff6b86 25%,
+		#f5a098 25%,
+		#f5a098 50%,
+		#ff6b86 50%,
+		#ff6b86 75%,
+		#f5a098 75%,
+		#f5a098 100%
+	);
+	background-size: 0.75rem 0.75rem;
+}
+
 /****UTLITIES*****/
+
+.magic-grid {
+	display: grid;
+	grid-template-columns: 1fr min(980px, calc(100% - 2rem)) 1fr;
+	margin: 0 auto;
+}
 
 .mono {
 	font-family: "Space Mono", monospace;
@@ -280,6 +308,10 @@ fieldset[type="text"] label {
 	max-width: 980px;
 	margin: 0 auto;
 	padding: 0 1rem;
+}
+
+.text-right {
+	text-align: right;
 }
 
 .text-center {

@@ -1,11 +1,12 @@
 ---
+import Comments from "../components/Comments.astro";
 import BaseLayout from "./BaseLayout.astro";
 import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-	<article class="blog">
+	<article class="blog" data-blog-id={frontmatter.id}>
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
 			<img src={underline} alt="Scribble underline" />
@@ -15,15 +16,10 @@ const { frontmatter } = Astro.props;
 			<slot/>
 		</div>
 	</article>
+	<Comments id={frontmatter.id} />
 </BaseLayout>
 
 <style>
-	.magic-grid {
-		display: grid;
-		grid-template-columns: 1fr min(980px, calc(100% - 2rem)) 1fr;
-		margin: 0 auto;
-	}
-
 	.blog-content {
 		margin-top: 2rem;
 		margin-bottom: 2rem;

@@ -1,0 +1,174 @@
+---
+const { id } = Astro.props;
+---
+
+<div class="magic-grid">
+	<h3 class="add-comment-title">Add a comment &nbsp; ✍️</h3>
+	<form id="add-comment">
+		<input type="hidden" name="id" value={id} />
+		<label for="name-field">Name</label>
+		<input type="text" name="name" id="name-field" required />
+		<label for="comment-field">Comment</label>
+		<textarea rows="6" name="comment" id="comment-field" required/>
+		<div class="text-right">
+			<input type="submit" id="comment-submit-btn" value="Add Comment"/>
+		</div>
+	</form>
+	<hr class="divider display-none"/>
+	<section class="comments-section">
+		<h3 class="comments-title display-none">Comments:</h3>
+		<h3 class="empty-comments display-none">No comments yet.</h3>
+		<template id="comment-template">
+			<li class="single-comment">
+				<div class="comment-header">
+					<p class="author"><span class="comment-author"></span> says...</p>
+					<p class="comment-date"></p>
+				</div>
+				<p class="comment-body"></p>
+			</li>
+		</template>
+		<ul id="comments-list">
+		</ul>
+	</section>
+</div>
+
+<script>
+	const commentForm = document.getElementById("add-comment");
+	const commentSubmit = document.getElementById("comment-submit-btn");
+
+	commentForm.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		commentSubmit.setAttribute("loading", "true");
+		commentSubmit.value = "🤖 READING COMMENT"
+		const formData = Object.fromEntries(new FormData(commentForm));
+		console.log(formData)
+		const response = await fetch('/.netlify/functions/add-comment', {
+			method: 'POST',
+			body: JSON.stringify({ name: formData.name, comment: formData.comment, blog_id: formData.id })
+		}).then(response => response.json())
+		commentSubmit.setAttribute("loading", "false");
+		commentSubmit.value = "Add Comment";
+		commentForm.reset()
+		getComments();
+	})
+
+	const getComments = async () => {
+		const id = document.querySelector("[data-blog-id]").dataset.blogId;
+		const commentsList = document.getElementById("comments-list")
+		const commentTemplate = document.getElementById("comment-template");
+		const commentsTitle = document.querySelector(".comments-title");
+		const divider = document.querySelector(".divider")
+		commentsList.innerHTML = "";
+
+		const response = await fetch(`/.netlify/functions/get-comments?id=${id}`).then(response => response.json())
+
+		if (response.message.length > 0) {
+			divider.classList.remove("display-none")
+			commentsTitle.classList.remove("display-none");
+			commentsTitle.innerText = `Comments (${response.message.length})`
+		} else {
+			divider.classList.add("display-none")
+			commentsTitle.classList.add("display-none");
+		}
+
+		response.message.sort((a, b) => Number(new Date(b.created_at)) - Number(new Date(a.created_at))).forEach(comment => {
+			const clone = commentTemplate.content.cloneNode(true);
+			const author = clone.querySelector(".comment-author");
+			const body = clone.querySelector(".comment-body");
+			const date = clone.querySelector(".comment-date");
+			author.textContent = comment.name;
+			body.textContent = comment.comment;
+			date.textContent = new Date(comment.created_at).toDateString()
+			commentsList.appendChild(clone);
+		})
+	}
+
+	window.addEventListener('DOMContentLoaded', async (event) => {
+		getComments();
+	})
+</script>
+
+<style>
+
+	.comment-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.comments-title {
+		margin-bottom: 1rem;
+	}
+	.comment-date {
+		font-size: 0.6rem;
+		opacity: 0.7;
+	}
+
+	.comment-date:before {
+		content: "🗓";
+		display: inline-block;
+		margin-right: 8px;
+	}
+
+	.comment-body {
+		margin-top: 0.5rem;
+	}
+	.author {
+		color: var(--red);
+		font-style: italic;
+	}
+	#comments-list {
+		margin: 0;
+		padding: 0;
+	}
+	.single-comment {
+		list-style: none;
+		background-color: #f6f6f6;
+		padding: 1rem 1.5rem 1.75rem;
+		margin-bottom: 1rem;
+	}
+	input, textarea {
+		border: 0;
+		background-color: #f6f6f6;
+		border-radius: 5px;
+	}
+	form {
+		margin-bottom: 2rem;
+	}
+	.add-comment-title {
+		margin-bottom: 1rem;
+	}
+
+	.comments-section {
+		margin-top: 2rem;
+		margin-bottom: 4rem;
+	}
+	textarea {
+		width: 100%;
+		padding: 0.5rem;
+	}
+
+	#name-field {
+		padding: 0.5rem;
+		margin-bottom: 1rem;
+	}
+
+	input:hover, textarea:hover {
+		outline: var(--red) 2px solid;
+	}
+
+	input[type="submit"]{
+		margin-top: 0.25rem;
+		background-color: var(--red);
+		color: white;
+		padding: 0.5rem 1.5rem;
+		width: auto;
+		display: inline-block;
+		box-shadow: 2px 3px;
+		cursor: pointer;
+	}
+
+	input[type="submit"]:hover {
+		background-color: var(--dark-red);
+	}
+</style>

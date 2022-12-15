@@ -21,7 +21,6 @@ subscribeForm.addEventListener('submit', async (event) => {
 	subscribeBtn.setAttribute("loading", "false")
 	subscribeBtn.value = "Subscribe"
 
-
 	if (response.status === 200) {
 		subscribeForm.reset()
 		subscribeHeader.classList.add("subscribed")
