@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Unsubscribe">
+	<section>
+		<p id="unsub-msg">Unsubscribing...</p>
+		<a href="/">Back to home</a>
+	</section>
+</BaseLayout>
+
+<style>
+	section {
+		height: 80vh;
+		padding-top: 4rem;
+		text-align: center;
+	}
+
+	a {
+		display: block;
+		margin-top: 1rem;
+	}
+</style>
+
+<script>
+	window.addEventListener('DOMContentLoaded', async () => {
+		const unsubMessage = document.getElementById("unsub-msg");
+		const urlParams = new URLSearchParams(window.location.search);
+		const email = urlParams.get('email')
+
+		if(!email){
+			window.location = '/'
+		}
+
+		console.log(email);
+
+		const response = await fetch('/.netlify/functions/remove-subscriber', {
+			method: 'POST',
+			body: JSON.stringify({ email: email })
+		}).then(response => response.json()).then(finalResult => finalResult)
+
+		if(response.status === 200){
+			unsubMessage.innerText = "You have been successfully unsubscribed"
+		}
+	})
+</script>

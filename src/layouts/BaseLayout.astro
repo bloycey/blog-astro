@@ -33,11 +33,13 @@ const { title } = Astro.props;
 		</main>
 		<FooterWithSubscribe />
 		<script is:inline src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
-		<script src="../js/index.js"></script>
 	</body>
 </html>
 
 <style>
+	main {
+		min-height: 50vh
+	}
 	.main-nav {
 		padding: 0.5rem 1.5rem;
 		display: flex;

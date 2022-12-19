@@ -5,7 +5,7 @@ const { date, title, description, url } = Astro.props;
 ---
 
 <article>
-	<a href={url}>
+	<a class="blog-link" href={url}>
 		<img src={darkScribble} class="black" />
 		<img src={redScribble} class="red" />
 		<div>
@@ -19,7 +19,7 @@ const { date, title, description, url } = Astro.props;
 </article>
 
 <style>
-	a {
+	a.blog-link {
 		text-decoration: none;
 		color: var(--black);
 		position: relative;
