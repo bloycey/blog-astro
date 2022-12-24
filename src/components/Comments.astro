@@ -33,24 +33,6 @@ const { id } = Astro.props;
 </div>
 
 <script>
-	const commentForm = document.getElementById("add-comment");
-	const commentSubmit = document.getElementById("comment-submit-btn");
-
-	commentForm.addEventListener("submit", async (event) => {
-		event.preventDefault();
-		commentSubmit.setAttribute("loading", "true");
-		commentSubmit.value = "🤖 READING COMMENT"
-		const formData = Object.fromEntries(new FormData(commentForm));
-		await fetch('/.netlify/functions/add-comment', {
-			method: 'POST',
-			body: JSON.stringify({ name: formData.name, comment: formData.comment, blog_id: formData.id })
-		})
-		commentSubmit.setAttribute("loading", "false");
-		commentSubmit.value = "Add Comment";
-		commentForm.reset()
-		getComments();
-	})
-
 	const getComments = async () => {
 		const id = document.querySelector("[data-blog-id]").dataset.blogId;
 		const commentsList = document.getElementById("comments-list")
@@ -83,7 +65,26 @@ const { id } = Astro.props;
 	}
 
 	window.addEventListener('DOMContentLoaded', async (event) => {
-		getComments();
+		const commentForm = document.getElementById("add-comment");
+		const commentSubmit = document.getElementById("comment-submit-btn");
+
+		if(commentForm){
+			commentForm.addEventListener("submit", async (event) => {
+				event.preventDefault();
+				commentSubmit.setAttribute("loading", "true");
+				commentSubmit.value = "🤖 READING COMMENT"
+				const formData = Object.fromEntries(new FormData(commentForm));
+				await fetch('/.netlify/functions/add-comment', {
+					method: 'POST',
+					body: JSON.stringify({ name: formData.name, comment: formData.comment, blog_id: formData.id })
+				})
+				commentSubmit.setAttribute("loading", "false");
+				commentSubmit.value = "Add Comment";
+				commentForm.reset()
+				getComments();
+			})
+			getComments();
+		}
 	})
 </script>
 

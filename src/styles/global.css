@@ -1,6 +1,7 @@
 :root {
 	--red: #d43b57;
-	--dark-red: #bc2944;
+	--dark-red: #a81530;
+	--light-red: #ff6b86;
 	--white: #ffffff;
 	--black: #111111;
 	--line-height: 170%;
@@ -15,7 +16,7 @@
 	box-sizing: border-box;
 }
 
-:focus {
+:focus-visible {
 	outline: var(--red) 2px dotted;
 }
 
@@ -319,5 +320,6 @@ fieldset[type="text"] label {
 }
 
 .display-none {
-	display: none;
+	display: none !important;
 }
+

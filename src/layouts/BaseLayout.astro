@@ -2,6 +2,7 @@
 import "../styles/global.css"
 import FooterWithSubscribe from '../components/FooterWithSubscribe.astro';
 const { title } = Astro.props;
+const url = Astro.url
 ---
 
 <!DOCTYPE html>
@@ -25,8 +26,37 @@ const { title } = Astro.props;
 		/>
 	</head>
 	<body>
+		<nav id="menu-overlay" class="display-none">
+			<ul>
+				<li>
+					<a href="/" aria-current={url.pathname === "/" || url.pathname.includes("/posts") ? "page" : "false"}>Blog</a>
+				</li>
+				<li>
+					<a href="/useful-links-library" aria-current={url.pathname === "/useful-links-library" ? "page" : "false"}>Useful links library</a>
+				</li>
+				<li>
+					<a href="/about" aria-current={url.pathname === "/about" ? "page" : "false"}>Who is bloycey?</a>
+				</li>
+			</ul>
+			<button class="menu-toggle close-btn">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+				<span>
+					Close
+				</span>
+			</button>
+		</nav>
 		<nav class="main-nav">
 			<a href="/" class="mono">bloycey.blog</a>
+			<button class="menu-toggle">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+				</svg>
+				<span>
+					Menu
+				</span>
+			</button>
 		</nav>
 		<main>
 			<slot />
@@ -36,12 +66,128 @@ const { title } = Astro.props;
 	</body>
 </html>
 
+<script>
+	window.addEventListener('DOMContentLoaded', (event) => {
+		const menuOverlay = document.getElementById("menu-overlay");
+		const menuBtns = document.querySelectorAll(".menu-toggle");
+
+		const menuIsOpen = () => {
+			const menuOverlay = document.getElementById("menu-overlay");
+			return !menuOverlay.classList.contains("display-none")
+		}
+
+		const focusFirstMenuItem = () => {
+			const firstListItem = menuOverlay.querySelector("li a");
+			firstListItem.focus();
+		}
+
+		document.addEventListener("focusin", event => {
+			if (menuIsOpen() && !menuOverlay.contains(event.target)) {
+				focusFirstMenuItem()
+			}
+		})
+
+		window.addEventListener("keydown", event => {
+			if (event.key === "Escape" && menuIsOpen() ) {
+				menuOverlay.classList.add("display-none");
+			}
+		});
+
+		menuBtns.forEach(btn => {
+			btn.addEventListener("click", () => {
+				toggleMenu()
+			})
+		})
+
+		const toggleMenu = () => {
+			menuOverlay.classList.toggle("display-none");
+			if (menuIsOpen()) {
+				focusFirstMenuItem()
+			}
+		}
+	});
+</script>
+
 <style>
+	.main-nav a:focus-visible, .main-nav button:focus-visible, #menu-overlay a:focus-visible, #menu-overlay button:focus-visible {
+		outline-color: #ffffff;
+	}
+	#menu-overlay {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-image: radial-gradient(circle,
+			var(--dark-red),
+			var(--red),
+			var(--light-red));
+		/* background-color: var(--red); */
+		z-index: 99;
+	}
+
+	#menu-overlay a {
+		color: #ffffff;
+		font-size: 2rem;
+		text-decoration: none;
+		display: block;
+	}
+
+	#menu-overlay a[aria-current="page"] {
+		text-decoration: underline;
+		text-decoration-style: wavy;
+		text-underline-offset: 0.5rem;
+		padding-bottom: 1rem;
+
+	}
+
+	#menu-overlay ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	#menu-overlay ul li {
+		transition: 0.3s ease;
+		margin-bottom: 1.5rem;
+	}
+
+	#menu-overlay ul li:hover {
+		transform: translateY(-0.25rem);
+	}
+
+	@media (min-width: 767px){
+		#menu-overlay ul li {
+			margin-bottom: 2rem;
+		}
+	}
+	.close-btn {
+		position: absolute;
+		top: 0.5rem;
+		right: 1rem;
+	}
+	.menu-toggle {
+		color: #ffffff;
+		border: 0;
+		padding: 0;
+		background-color: transparent;
+		z-index: 11;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		cursor: pointer;
+	}
+
+	.menu-toggle svg {
+		width: 1.25rem;
+	}
 	main {
 		min-height: 50vh
 	}
 	.main-nav {
-		padding: 0.5rem 1.5rem;
+		padding: 0.5rem 1rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
