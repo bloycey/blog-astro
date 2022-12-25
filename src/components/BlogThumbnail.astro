@@ -9,7 +9,7 @@ const { date, title, description, url } = Astro.props;
 		<img src={darkScribble} class="black" />
 		<img src={redScribble} class="red" />
 		<div>
-			<span class="mono text-sm uppercase">{new Date(date).toDateString()}</span>
+			<span class="mono uppercase date">{new Date(date).toDateString()}</span>
 			<h2>{title}</h2>
 		</div>
 		<p>
@@ -61,9 +61,13 @@ const { date, title, description, url } = Astro.props;
 		color: var(--black);
 	}
 
+	span.date {
+		font-size: 0.75rem;
+	}
+
 	@media (max-width: 767px) {
-		a h2 {
-			font-size: 1.25rem;
+		span.date {
+			font-size: 1rem;
 		}
 		a img {
 			display: none;

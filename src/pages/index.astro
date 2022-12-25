@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BlogThumbnail from '../components/BlogThumbnail.astro';
 import andrewImg from "../images/andrew.svg";
+import underline from "../images/underline.svg";
 
 const posts = await Astro.glob("./posts/*.mdx")
 const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
@@ -11,7 +12,8 @@ const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
 	<div class="container">
 		<section class="hero-wrapper">
 			<h1>Hot takes on web tech</h1>
-			<img src={andrewImg} alt="A cartoon of Andrew Bloyce - the author of this blog." />
+			<img src={underline} alt="underline scribble" class="underline" />
+			<img src={andrewImg} alt="A cartoon of Andrew Bloyce - the author of this blog." class="andrew-img"/>
 		</section>
 		<ul class="blogs-list">
 			{nonDraftPosts.sort((a, b) => Number(new Date(b.frontmatter.date)) - Number(new Date(a.frontmatter.date))).map(post => {
@@ -27,20 +29,15 @@ const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
 </BaseLayout>
 
 <style>
-	.hero-wrapper {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
 	.hero-wrapper h1 {
-		font-size: 1.5rem;
+		margin-top: 4rem;
+		margin-bottom: 0.5rem;
+		font-size: 2rem;
 		width: 100%;
 		line-height: 110%;
-		padding: 2rem 0;
 	}
 
-	.hero-wrapper img {
+	.hero-wrapper .andrew-img {
 		display: none;
 		z-index: 10;
 		transform: translateY(-60px);
@@ -48,10 +45,21 @@ const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
 	}
 
 	@media (min-width: 767px) {
-		.hero-wrapper img {
+		.hero-wrapper .andrew-img {
 			display: block;
 		}
+
+		.hero-wrapper .underline {
+			display: none;
+		}
+
+		.hero-wrapper {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
 		.hero-wrapper h1 {
+			margin-top: 0;
 			font-size: 3.5rem;
 			width: 70%;
 			padding: 0;
@@ -61,7 +69,13 @@ const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
 	.blogs-list {
 		padding-left: 0;
 		padding-bottom: 4rem;
-		margin: 0;
+		margin-top: 3rem;
+	}
+
+	@media (min-width: 767px) {
+		.blogs-list {
+			margin: 0;
+		}
 	}
 
 	.blogs-list li {
