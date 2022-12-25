@@ -92,6 +92,9 @@ const { id } = Astro.props;
 				commentSubmit.setAttribute("loading", "false");
 				commentSubmit.value = "Add Comment";
 				commentForm.reset()
+				if(response.status === 429){
+					alert("Whoa there, slow down. Maximum of 2 comments every minute please! 🙏")
+				}
 				if(response.message !== "Honeypot triggered"){
 					getComments();
 				}
@@ -123,8 +126,12 @@ const { id } = Astro.props;
 	}
 
 	.comment-body {
-		margin-top: 0.5rem;
+		margin-top: 1.5rem;
+		white-space: pre;
+		line-height: 1.25;
 	}
+
+
 	.author {
 		color: var(--red);
 		font-style: italic;

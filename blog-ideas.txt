@@ -3,3 +3,4 @@
 - How I built this blog: Subscribers
 - How I build this blog: Email Newsletter (with AWS SES)
 - Wavy dividers - the simple way.
+- Getting fonts
