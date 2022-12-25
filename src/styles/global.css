@@ -232,6 +232,10 @@ blockquote {
 form {
 	margin: 0;
 	font-family: "IBM Plex Sans", sans-serif;
+	font-size: 1rem;
+}
+
+form label {
 	font-size: 0.75rem;
 }
 
