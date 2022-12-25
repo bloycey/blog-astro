@@ -10,7 +10,7 @@ const { date, title, description, url } = Astro.props;
 		<img src={redScribble} class="red" />
 		<div>
 			<span class="mono text-sm uppercase">{new Date(date).toDateString()}</span>
-			<h2 class="text-lg">{title}</h2>
+			<h2>{title}</h2>
 		</div>
 		<p>
 			{description}
@@ -63,7 +63,7 @@ const { date, title, description, url } = Astro.props;
 
 	@media (max-width: 767px) {
 		a h2 {
-			font-size: 1.5rem;
+			font-size: 1.25rem;
 		}
 		a img {
 			display: none;
