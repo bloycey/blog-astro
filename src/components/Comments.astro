@@ -8,6 +8,16 @@ const { id } = Astro.props;
 		<input type="hidden" name="id" value={id} />
 		<label for="name-field">Name</label>
 		<input type="text" name="name" id="name-field" required />
+		<fieldset class="visually-hidden">
+			<label for="last-name-field">Last Name:</label>
+			<input
+				type="text"
+				id="last-name-field"
+				name="last_name"
+				autocomplete="off"
+				tabindex="-1"
+			/>
+		</fieldset>
 		<label for="comment-field">Comment</label>
 		<textarea rows="6" name="comment" id="comment-field" required/>
 		<div class="text-right">
@@ -69,21 +79,23 @@ const { id } = Astro.props;
 		const commentSubmit = document.getElementById("comment-submit-btn");
 
 		if(commentForm){
+			getComments()
 			commentForm.addEventListener("submit", async (event) => {
 				event.preventDefault();
 				commentSubmit.setAttribute("loading", "true");
 				commentSubmit.value = "🤖 READING COMMENT"
 				const formData = Object.fromEntries(new FormData(commentForm));
-				await fetch('/.netlify/functions/add-comment', {
+				const response = await fetch('/.netlify/functions/add-comment', {
 					method: 'POST',
-					body: JSON.stringify({ name: formData.name, comment: formData.comment, blog_id: formData.id })
-				})
+					body: JSON.stringify({ name: formData.name, comment: formData.comment, last_name: formData.last_name, blog_id: formData.id })
+				}).then(result => result.json())
 				commentSubmit.setAttribute("loading", "false");
 				commentSubmit.value = "Add Comment";
 				commentForm.reset()
-				getComments();
+				if(response.message !== "Honeypot triggered"){
+					getComments();
+				}
 			})
-			getComments();
 		}
 	})
 </script>

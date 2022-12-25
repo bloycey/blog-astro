@@ -7,14 +7,22 @@ dotenv.config()
 const supabase = createClient(process.env.DATABASE, process.env.DATABASE_KEY)
 
 export const handler = async (event, context) => {
-	const { email, name } = JSON.parse(event.body)
+	const { email, name, last_name } = JSON.parse(event.body)
+
+	if (last_name) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				status: 500,
+				message: 'Honeypot triggered',
+			}),
+		}
+	}
 
 	const { data, error } = await supabase
 		.from('subscribers')
 		.insert({ email, name })
 		.select()
-
-	console.log(data, error)
 
 	return {
 		statusCode: 200,

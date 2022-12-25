@@ -323,3 +323,7 @@ fieldset[type="text"] label {
 	display: none !important;
 }
 
+.visually-hidden {
+	position: absolute;
+	left: -9999px;
+}

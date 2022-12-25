@@ -7,7 +7,16 @@ dotenv.config()
 const supabase = createClient(process.env.DATABASE, process.env.DATABASE_KEY)
 
 export const handler = async (event, context) => {
-	const { name, comment, blog_id } = JSON.parse(event.body)
+	const { name, comment, blog_id, last_name } = JSON.parse(event.body)
+	if (last_name) {
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				status: 200,
+				message: 'Honeypot triggered',
+			}),
+		}
+	}
 
 	const { data, error } = await supabase
 		.from('comments')

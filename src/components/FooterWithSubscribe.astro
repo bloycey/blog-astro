@@ -29,6 +29,16 @@ import mail from "../images/mail.svg";
 						placeholder="Colonel Mustard"
 					/>
 				</fieldset>
+				<fieldset class="visually-hidden">
+					<label for="last-name-field">Last Name:</label>
+					<input
+						type="text"
+						id="last-name-field"
+						name="last_name"
+						autocomplete="off"
+						tabindex="-1"
+					/>
+				</fieldset>
 				<fieldset>
 					<label for="email-field">Email:</label>
 					<input
@@ -250,11 +260,10 @@ import mail from "../images/mail.svg";
 		subscribeBtn.value = "doing some magic..."
 
 		const formData = Object.fromEntries(new FormData(subscribeForm));
-		console.log(formData)
 
 		const response = await fetch('/.netlify/functions/add-subscriber', {
 			method: 'POST',
-			body: JSON.stringify({ name: formData.name, email: formData.email })
+			body: JSON.stringify({ name: formData.name, email: formData.email, last_name: formData.last_name })
 		})
 			.then(response => response.json())
 
@@ -262,17 +271,17 @@ import mail from "../images/mail.svg";
 		subscribeBtn.setAttribute("loading", "false")
 		subscribeBtn.value = "Subscribe"
 
-		if (response.status === 200) {
-			subscribeForm.reset()
-			subscribeHeader.classList.add("subscribed")
-			setTimeout(() => {
-				subscribeHeader.classList.remove("subscribed")
-			}, 3000)
-			const jsConfetti = new JSConfetti()
-			jsConfetti.addConfetti({
-				emojis: ['🎉', '🦄', '🐸', '✨', '😮', '🍄'],
-			})
-			successfulSubscribeMsg.classList.remove("display-none");
-		}
+		// No matter what we show the success state, even if we've blocked a scammer with the honeypot.
+		subscribeForm.reset()
+		subscribeHeader.classList.add("subscribed")
+		setTimeout(() => {
+			subscribeHeader.classList.remove("subscribed")
+		}, 3000)
+		const jsConfetti = new JSConfetti()
+		jsConfetti.addConfetti({
+			emojis: ['🎉', '🦄', '🐸', '✨', '😮', '🍄'],
+		})
+		successfulSubscribeMsg.classList.remove("display-none");
+
 	})
 </script>
