@@ -31,8 +31,8 @@ const { id } = Astro.props;
 		<template id="comment-template">
 			<li class="single-comment">
 				<div class="comment-header">
-					<p class="author"><span class="comment-author"></span> says...</p>
 					<p class="comment-date"></p>
+					<p class="author"><span class="comment-author"></span> says...</p>
 				</div>
 				<p class="comment-body"></p>
 			</li>
@@ -104,13 +104,6 @@ const { id } = Astro.props;
 </script>
 
 <style>
-
-	.comment-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
 	.comments-title {
 		margin-bottom: 1rem;
 	}
@@ -126,13 +119,14 @@ const { id } = Astro.props;
 	}
 
 	.comment-body {
-		margin-top: 1.5rem;
+		margin-top: 1rem;
 		white-space: pre;
 		line-height: 1.25;
 	}
 
 
 	.author {
+		margin-top: 0.25rem;
 		color: var(--red);
 		font-style: italic;
 	}
