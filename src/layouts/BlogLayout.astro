@@ -5,7 +5,7 @@ import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout title={frontmatter.title}>
+<BaseLayout title={frontmatter.title} image={frontmatter.image} description={frontmatter.description}>
 	<article class="blog" data-blog-id={frontmatter.id}>
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
@@ -26,8 +26,8 @@ const { frontmatter } = Astro.props;
 	}
 
 	.blog-date {
-		margin-top: 3rem;
-		margin-bottom: 1rem;
+		margin-top: 1rem;
+		margin-bottom: 3rem;
 		color: var(--red);
 	}
 </style>
@@ -66,6 +66,19 @@ const { frontmatter } = Astro.props;
 		margin-bottom: 1.5rem;
 	}
 
+	.blog ol, .blog ul {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+	}
+
+	.blog strong {
+		background-color: var(--red);
+		color: var(--white);
+		display: inline-block;
+		padding: 0 0.25em;
+		font-weight: normal;
+	}
+
 	.blog figure {
 		margin: 0 0 2.5rem 0;
 	}
@@ -77,6 +90,11 @@ const { frontmatter } = Astro.props;
 
 		.blog p {
 			margin-bottom: 2rem;
+		}
+
+		.blog ol, .blog ul {
+			margin-top: 0;
+			margin-bottom: 1.5rem;
 		}
 	}
 

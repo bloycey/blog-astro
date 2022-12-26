@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css"
 import FooterWithSubscribe from '../components/FooterWithSubscribe.astro';
-const { title } = Astro.props;
+const { title, image, description } = Astro.props;
 const url = Astro.url
 ---
 
@@ -11,9 +11,19 @@ const url = Astro.url
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content="Hot takes on web Tech" />
+		<meta name="description" content={description || "Bloycey's Blog"} />
+		<meta property="og:title" content={`Bloycey's Blog: ${title}`} />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content={url} />
+		<meta property="og:image" content={image} />
+		<meta property="og:site_name" content="Bloycey Blog" />
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:title" content={`Bloycey Blog: ${title}`}>
+		<meta property="twitter:description" content={description || "Bloycey's Blog"} />
+		<meta property="twitter:image" content={image} />
+		<meta property="twitter:site" content="@bloycey" />
+		<meta property="twitter:creator" content="@bloycey" />
 		<link rel="icon" type="image/svg+xml" href="assets/images/logo.svg" />
-
 		<meta name="generator" content={Astro.generator} />
 		<title>Bloycey Blog: {title}</title>
 		<link rel="icon" type="image/svg+xml" href="/logo.svg" />

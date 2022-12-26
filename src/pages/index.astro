@@ -8,10 +8,10 @@ const posts = await Astro.glob("./posts/*.mdx")
 const nonDraftPosts = posts.filter((post) => !post.frontmatter.draft)
 ---
 
-<BaseLayout title="Unicorn Diaries 🦄">
+<BaseLayout title="Bloycey's Blog 🦄">
 	<div class="container">
 		<section class="hero-wrapper">
-			<h1>Unicorn Diaries 🦄</h1>
+			<h1>Bloycey's Blog 🦄</h1>
 			<img src={underline} alt="underline scribble" class="underline" />
 			<img src={andrewImg} alt="A cartoon of Andrew Bloyce - the author of this blog." class="andrew-img"/>
 		</section>
