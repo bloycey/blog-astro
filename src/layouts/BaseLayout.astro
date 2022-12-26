@@ -42,7 +42,7 @@ const url = Astro.url
 					<a href="/" aria-current={url.pathname === "/" || url.pathname.includes("/posts") ? "page" : "false"}>Blog</a>
 				</li>
 				<li>
-					<a href="/useful-links-library" aria-current={url.pathname === "/useful-links-library" ? "page" : "false"}>Useful links library</a>
+					<a href="/useful-links-library" aria-current={url.pathname === "/useful-links-library" ? "page" : "false"}>Useful links</a>
 				</li>
 				<li>
 					<a href="/about" aria-current={url.pathname === "/about" ? "page" : "false"}>Who is bloycey?</a>
@@ -140,9 +140,12 @@ const url = Astro.url
 
 	#menu-overlay a {
 		color: #ffffff;
-		font-size: 2rem;
+		font-size: 10vw;
 		text-decoration: none;
+		font-weight: bold;
+		text-transform: uppercase;
 		display: block;
+		line-height: 1.1;
 	}
 
 	#menu-overlay a[aria-current="page"] {
@@ -166,15 +169,9 @@ const url = Astro.url
 	#menu-overlay ul li:hover {
 		transform: translateY(-0.25rem);
 	}
-
-	@media (min-width: 767px){
-		#menu-overlay ul li {
-			margin-bottom: 2rem;
-		}
-	}
 	.close-btn {
 		position: absolute;
-		top: 0.5rem;
+		top: 0.75rem;
 		right: 1rem;
 	}
 	.menu-toggle {
