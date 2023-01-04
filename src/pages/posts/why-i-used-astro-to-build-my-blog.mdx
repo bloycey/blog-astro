@@ -94,6 +94,25 @@ From the docs:
 
 > The term “Astro Island” refers to an interactive UI component on an otherwise static page of HTML. Multiple islands can exist on a page, and an island always renders in isolation. Think of them as islands in a sea of static, non-interactive HTML.
 
+The fact that Astro have taken the islands concept and made it a reality is a remarkable and trailblazing achievement. I think a lot of devs intuitively know that islands are a good idea, but until now there hasn't been any easy way to implement them (intersection observer? - no thanks!).
+
+Islands can be loaded in several different ways depending on the attribute you pass the component.
+
+```jsx
+
+// Load and hydrate the component immediately on page load
+<BuyButton client:load />
+
+// Load and hydrate the component one the page is done with its initial load
+<ShowHideButton client:idle />
+
+// Load and hydrate the component once it has completely entered the user's viewport.
+<HeavyImageCarousel client:visible />
+```
+_Example above borrowed from the Astro docs_
+
+Functionality like this makes the developer experience with Astro a real dream.
+
 **5. The documentation**
 
 Astro's docs are as close to perfect as you could hope.
