@@ -184,6 +184,11 @@ hr:after {
 	text-decoration-color: var(--red);
 }
 
+pre.astro-code {
+	background-color: transparent !important;
+	margin-top: 0;
+}
+
 pre code::before {
 	content: "code";
 	text-transform: uppercase;
@@ -191,28 +196,40 @@ pre code::before {
 	top: 0;
 	left: 0;
 	background-color: var(--red);
-	padding: 8px 24px;
+	padding: 4px 16px;
 	color: #fff;
 	font-family: monospace;
 	border-bottom-right-radius: 10px;
+	border-top-left-radius: 8px;
+}
+
+@media (min-width: 767px) {
+	pre code::before {
+		padding: 8px 24px;
+	}
 }
 
 pre code {
 	position: relative;
 	white-space: pre-wrap;
 	font-weight: 400;
-	font-size: 0.75rem;
-	padding: 3rem 2rem 2rem 2rem;
+	font-size: 0.875rem;
+	padding: 2.5rem 1.5rem 1.5rem 1.5rem;
 	display: block;
 	border-radius: 10px;
-	border: 5px solid var(--red);
-	background-color: #fff;
+	background-color: #28293d;
 	line-height: 150%;
+}
+
+@media (min-width: 767px) {
+	pre code {
+		padding: 3rem 2rem 2rem 2rem;
+	}
 }
 
 blockquote {
 	display: flex;
-	margin: 1rem 0 3rem;
+	margin: 0.5rem 0 2rem;
 	margin-left: 0;
 	position: relative;
 	line-height: var(--line-height);
@@ -222,6 +239,10 @@ blockquote {
 }
 
 @media (min-width: 767px) {
+	blockquote {
+		margin: 0.5rem 0 2.5rem;
+	}
+
 	blockquote::before {
 		content: url("../images/scribble_red.svg");
 		position: absolute;
@@ -280,6 +301,12 @@ fieldset[type="text"] label {
 }
 
 /****UTLITIES*****/
+
+.video {
+	aspect-ratio: 16 /9;
+	width: 100%;
+	margin-bottom: 2rem;
+}
 
 .magic-grid {
 	display: grid;

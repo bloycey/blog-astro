@@ -1,0 +1,102 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: 'Why I used Astro to build my blog'
+date: '11-22-2022'
+id: 'build-blog-pt-1'
+description: 'A love letter to Astro 😍'
+draft: true
+---
+
+import { Code } from 'astro/components';
+import FancyLink from "../../components/FancyLink.astro"
+export const components = { a: FancyLink }
+
+I'm using [Astro](https://astro.build/) to power this blog, and I'm a _massive fan_. It feels like Astro was the framework I was always looking for but never existed. Yes, I've tried similar alternatives like [Eleventy](https://www.11ty.dev/) and [Gatsby](https://www.gatsbyjs.com/) but none of them hit the sweet spot of functionality and developer experience like Astro has. Let me tell you about all the ways Astro has made my blogging journey a smooth and enjoyable one.
+
+<iframe class="video" src="https://www.youtube.com/embed/dsTXcSeAZq8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+Don't fancy reading the full blog post? Just watch the clip above for a brilliant overview of Astro.
+
+**1. Markdown and MDX support**
+
+For developer bloggers I'd argue that Markdown is the best way to write long-form content. With markdown supported out of the box with Astro I don't feel the need to integrate a fancy CMS. I can write my blogs in my code editor (and enjoy all the shortcuts that I'm used to) or I can even write blog posts directly into the github editor if I want.
+
+_Sidenote_: I've actually been hosting my images using github by simply copying and pasting images into the github markdown editor. Essentially I'm hotlinking to github's servers to access my images. This might not be the _best practice_ here but the convenience factor makes it worth it for me, and I trust github's servers to have a decent response time. 🤷‍♂️
+
+Astro also supports MDX files. In case you haven't heard of MDX it's a superset of Markdown that allows you to chuck components directly into your Markdown. This is commonly a React component but in the context of Astro it also might be a `.Astro` file. I'm using it MDX for to author my blog posts so I can implement the fancy SVG links (you'll have to be on desktop to see them!)
+
+
+**2. Syntax of Astro files**
+
+Astro follows a similar path to [Vue JS](https://vuejs.org/) and [Svelte](https://svelte.dev/) in how components implement JS and CSS. An Astro component might look something like this:
+
+```html
+  <div>
+    <p>Hello, world!</p>
+  </div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', async (event) => {
+    console.log("I'm ready for business")
+  })
+</script>
+
+<style>
+  /* scoped by default baby! */
+  p {
+    color: red;
+    font-size: 54px;
+  }
+</style>
+```
+
+Notice how the HTML, CSS, and JS all live in the same file? This used to be considered bad practice until React opened the floodgates with JSX mixing JS and HTML and everone seemingly decided that if react was doing it then it must be fine.
+
+> Well if React is doing it, it can't be too bad...
+
+I'll admit that I was a JSX naysayer when it was first introduced. And to an extent I still don't _love_ JSX. Astro files, on the other hand, feel more natural. While JSX frankensteined JS and HTML together Astro files keep the logic and presentation is seperate _chunks_ even if they're in the same file.
+
+As JS frameworks became more popular we collectively decided that componentisation is more useful than the seperation of concerns principle and now we're more than happy to mix HTML, CSS, and JS in the same file.
+
+> I'm all for it.
+
+The way that Astro mixes HTML, CSS, and JS is very natural. Astro uses the `style` and `script` blocks native to HTML, which should feel familiar to developers of all skill levels.
+
+
+**3. Simple Scoped CSS**
+
+CSS in Astro is scoped to the component _by default_ but can be made global with the `is:global` attribute. This approach is extremely elegant and simple, particularly when in comparision to solutions found in the React space like [Emotion](https://emotion.sh/docs/introduction) and CSS Modules.
+
+Look at this:
+
+```html
+<style>
+  /* Local to the component */
+</style>
+
+<style is:global>
+  /* Applies everywhere */
+</style>
+```
+
+> Beautiful, isn't it?
+
+CSS in Astro is straightforward, uncomplicated, vanilla CSS. You can choose to bring your own tooling like SCSS or Tailwind to the table if you like (there is support for a whole range of CSS [frameworks](https://docs.astro.build/en/guides/styling/#css-integrations)) however you can also just write plain ol' CSS and everthing works as expected. *chef's kiss*
+
+**4. Flexibility to use React, Vue, etc (but only if I want to!)**
+
+Astro is an extremely flexible framework - almost a _meta-framework_ really - in that it allows you to write Static HTML alongside components written in React, Solid, Svelte, and Vue.
+
+The real magic, however, comes from the [islands](https://docs.astro.build/en/concepts/islands/) architecture.
+
+**5. The documentation**
+
+Astro's docs are as close to perfect as you could hope.
+
+**6. Performance**
+
+Vite.
+
+Conclusion
+
+- The static site builder hack together
+- Why static site generators are the happy medium between raw HTML, CSS, and JS, and SPAs.
