@@ -25,10 +25,10 @@
 					/>
 				</fieldset>
 				<fieldset class="visually-hidden">
-					<label for="last-name-field">Last Name:</label>
+					<label for="last-name-subscribe-field">Last Name:</label>
 					<input
 						type="text"
-						id="last-name-field"
+						id="last-name-subscribe-field"
 						name="last_name"
 						autocomplete="off"
 						tabindex="-1"
@@ -167,7 +167,7 @@
 		.subscribe-wrapper input[type="text"],
 		.subscribe-wrapper input[type="email"] {
 			height: 2rem;
-			font-size: 0.75rem
+			font-size: 0.75rem;
 		}
 
 		#subscribe-form {
@@ -217,39 +217,40 @@
 </style>
 
 <script>
-	const subscribeForm = document.getElementById('subscribe-form')
-	const subscribeHeader = document.querySelector('.subscribe-header')
-	const successfulSubscribeMsg = document.querySelector('.subscribed-msg')
+	const subscribeForm = document.getElementById("subscribe-form");
+	const subscribeHeader = document.querySelector(".subscribe-header");
+	const successfulSubscribeMsg = document.querySelector(".subscribed-msg");
 	const subscribeBtn = subscribeForm.querySelector("input[type='submit']");
 
-	subscribeForm.addEventListener('submit', async (event) => {
-		event.preventDefault()
+	subscribeForm.addEventListener("submit", async event => {
+		event.preventDefault();
 		subscribeBtn.setAttribute("loading", "true");
-		subscribeBtn.value = "doing some magic..."
+		subscribeBtn.value = "doing some magic...";
 
 		const formData = Object.fromEntries(new FormData(subscribeForm));
 
-		const response = await fetch('/.netlify/functions/add-subscriber', {
-			method: 'POST',
-			body: JSON.stringify({ name: formData.name, email: formData.email, last_name: formData.last_name })
-		})
-			.then(response => response.json())
+		const response = await fetch("/.netlify/functions/add-subscriber", {
+			method: "POST",
+			body: JSON.stringify({
+				name: formData.name,
+				email: formData.email,
+				last_name: formData.last_name
+			})
+		}).then(response => response.json());
 
-
-		subscribeBtn.setAttribute("loading", "false")
-		subscribeBtn.value = "Subscribe"
+		subscribeBtn.setAttribute("loading", "false");
+		subscribeBtn.value = "Subscribe";
 
 		// No matter what we show the success state, even if we've blocked a scammer with the honeypot.
-		subscribeForm.reset()
-		subscribeHeader.classList.add("subscribed")
+		subscribeForm.reset();
+		subscribeHeader.classList.add("subscribed");
 		setTimeout(() => {
-			subscribeHeader.classList.remove("subscribed")
-		}, 3000)
-		const jsConfetti = new JSConfetti()
+			subscribeHeader.classList.remove("subscribed");
+		}, 3000);
+		const jsConfetti = new JSConfetti();
 		jsConfetti.addConfetti({
-			emojis: ['🎉', '🦄', '🐸', '✨', '😮', '🍄'],
-		})
+			emojis: ["🎉", "🦄", "🐸", "✨", "😮", "🍄"]
+		});
 		successfulSubscribeMsg.classList.remove("display-none");
-
-	})
+	});
 </script>

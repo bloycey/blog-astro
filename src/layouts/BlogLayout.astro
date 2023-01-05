@@ -5,15 +5,21 @@ import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout title={frontmatter.title} image={frontmatter.image} description={frontmatter.description}>
+<BaseLayout
+	title={frontmatter.title}
+	image={frontmatter.image}
+	description={frontmatter.description}
+>
 	<article class="blog" data-blog-id={frontmatter.id}>
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
 			<img src={underline} alt="Scribble underline" />
-			<span class="blog-date mono">{new Date(frontmatter.date).toDateString()}</span>
+			<span class="blog-date mono"
+				>{new Date(frontmatter.date).toDateString()}</span
+			>
 		</div>
 		<div class="magic-grid">
-			<slot/>
+			<slot />
 		</div>
 	</article>
 	<Comments id={frontmatter.id} />
@@ -66,7 +72,8 @@ const { frontmatter } = Astro.props;
 		margin-bottom: 1.5rem;
 	}
 
-	.blog ol, .blog ul {
+	.blog ol,
+	.blog ul {
 		margin-top: 0;
 		margin-bottom: 1.5rem;
 	}
@@ -92,7 +99,8 @@ const { frontmatter } = Astro.props;
 			margin-bottom: 2rem;
 		}
 
-		.blog ol, .blog ul {
+		.blog ol,
+		.blog ul {
 			margin-top: 0;
 			margin-bottom: 1.5rem;
 		}
@@ -153,3 +161,13 @@ const { frontmatter } = Astro.props;
 		}
 	}
 </style>
+
+<script>
+	// This is a hack to fix the color of the code blocks
+	window.addEventListener("DOMContentLoaded", () => {
+		const elements = document.querySelectorAll("[style='color:#6272A4']");
+		for (const element of elements) {
+			element.style.color = "#949fc2";
+		}
+	});
+</script>
