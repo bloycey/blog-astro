@@ -2,6 +2,7 @@
 	--red: #d43b57;
 	--dark-red: #a81530;
 	--light-red: #ff6b86;
+	--grey: #eeeeee;
 	--white: #ffffff;
 	--black: #111111;
 	--line-height: 170%;
@@ -185,7 +186,7 @@ hr:after {
 }
 
 code {
-	background-color: #f6f6f6;
+	background-color: var(--grey);
 	box-shadow: inset 0 0 5px #a5a5a5;
 	padding: 0.25rem;
 	border-radius: 5px;

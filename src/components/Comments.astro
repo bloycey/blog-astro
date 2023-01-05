@@ -19,12 +19,13 @@ const { id } = Astro.props;
 			/>
 		</fieldset>
 		<label for="comment-field">Comment</label>
-		<textarea rows="6" name="comment" id="comment-field" required/>
+		<textarea rows="6" name="comment" id="comment-field" required
+		></textarea>
 		<div class="text-right">
-			<input type="submit" id="comment-submit-btn" value="Add Comment"/>
+			<input type="submit" id="comment-submit-btn" value="Add Comment" />
 		</div>
 	</form>
-	<hr class="divider display-none"/>
+	<hr class="divider display-none" />
 	<section class="comments-section">
 		<h3 class="comments-title display-none">Comments:</h3>
 		<h3 class="empty-comments display-none">No comments yet.</h3>
@@ -32,75 +33,94 @@ const { id } = Astro.props;
 			<li class="single-comment">
 				<div class="comment-header">
 					<p class="comment-date"></p>
-					<p class="author"><span class="comment-author"></span> says...</p>
+					<p class="author">
+						<span class="comment-author"></span> says...
+					</p>
 				</div>
 				<p class="comment-body"></p>
 			</li>
 		</template>
-		<ul id="comments-list">
-		</ul>
+		<ul id="comments-list"></ul>
 	</section>
 </div>
 
 <script>
 	const getComments = async () => {
 		const id = document.querySelector("[data-blog-id]").dataset.blogId;
-		const commentsList = document.getElementById("comments-list")
+		const commentsList = document.getElementById("comments-list");
 		const commentTemplate = document.getElementById("comment-template");
 		const commentsTitle = document.querySelector(".comments-title");
-		const divider = document.querySelector(".divider")
+		const divider = document.querySelector(".divider");
 		commentsList.innerHTML = "";
 
-		const response = await fetch(`/.netlify/functions/get-comments?id=${id}`).then(response => response.json())
+		const response = await fetch(
+			`/.netlify/functions/get-comments?id=${id}`
+		).then(response => response.json());
 
 		if (response.message.length > 0) {
-			divider.classList.remove("display-none")
+			divider.classList.remove("display-none");
 			commentsTitle.classList.remove("display-none");
-			commentsTitle.innerText = `Comments (${response.message.length})`
+			commentsTitle.innerText = `Comments (${response.message.length})`;
 		} else {
-			divider.classList.add("display-none")
+			divider.classList.add("display-none");
 			commentsTitle.classList.add("display-none");
 		}
 
-		response.message.sort((a, b) => Number(new Date(b.created_at)) - Number(new Date(a.created_at))).forEach(comment => {
-			const clone = commentTemplate.content.cloneNode(true);
-			const author = clone.querySelector(".comment-author");
-			const body = clone.querySelector(".comment-body");
-			const date = clone.querySelector(".comment-date");
-			author.textContent = comment.name;
-			body.textContent = comment.comment;
-			date.textContent = new Date(comment.created_at).toDateString()
-			commentsList.appendChild(clone);
-		})
-	}
+		response.message
+			.sort(
+				(a, b) =>
+					Number(new Date(b.created_at)) -
+					Number(new Date(a.created_at))
+			)
+			.forEach(comment => {
+				const clone = commentTemplate.content.cloneNode(true);
+				const author = clone.querySelector(".comment-author");
+				const body = clone.querySelector(".comment-body");
+				const date = clone.querySelector(".comment-date");
+				author.textContent = comment.name;
+				body.textContent = comment.comment;
+				date.textContent = new Date(comment.created_at).toDateString();
+				commentsList.appendChild(clone);
+			});
+	};
 
-	window.addEventListener('DOMContentLoaded', async (event) => {
+	window.addEventListener("DOMContentLoaded", async event => {
 		const commentForm = document.getElementById("add-comment");
 		const commentSubmit = document.getElementById("comment-submit-btn");
 
-		if(commentForm){
-			getComments()
-			commentForm.addEventListener("submit", async (event) => {
+		if (commentForm) {
+			getComments();
+			commentForm.addEventListener("submit", async event => {
 				event.preventDefault();
 				commentSubmit.setAttribute("loading", "true");
-				commentSubmit.value = "🤖 READING COMMENT"
+				commentSubmit.value = "🤖 READING COMMENT";
 				const formData = Object.fromEntries(new FormData(commentForm));
-				const response = await fetch('/.netlify/functions/add-comment', {
-					method: 'POST',
-					body: JSON.stringify({ name: formData.name, comment: formData.comment, last_name: formData.last_name, blog_id: formData.id })
-				}).then(result => result.json())
+				const response = await fetch(
+					"/.netlify/functions/add-comment",
+					{
+						method: "POST",
+						body: JSON.stringify({
+							name: formData.name,
+							comment: formData.comment,
+							last_name: formData.last_name,
+							blog_id: formData.id
+						})
+					}
+				).then(result => result.json());
 				commentSubmit.setAttribute("loading", "false");
 				commentSubmit.value = "Add Comment";
-				commentForm.reset()
-				if(response.status === 429){
-					alert("Whoa there, slow down. Maximum of 2 comments every minute please! 🙏")
+				commentForm.reset();
+				if (response.status === 429) {
+					alert(
+						"Whoa there, slow down. Maximum of 2 comments every minute please! 🙏"
+					);
 				}
-				if(response.message !== "Honeypot triggered"){
+				if (response.message !== "Honeypot triggered") {
 					getComments();
 				}
-			})
+			});
 		}
-	})
+	});
 </script>
 
 <style>
@@ -124,7 +144,6 @@ const { id } = Astro.props;
 		line-height: 1.25;
 	}
 
-
 	.author {
 		margin-top: 0.25rem;
 		color: var(--red);
@@ -136,13 +155,14 @@ const { id } = Astro.props;
 	}
 	.single-comment {
 		list-style: none;
-		background-color: #f6f6f6;
+		background-color: var(--grey);
 		padding: 1rem 1.5rem 1.75rem;
 		margin-bottom: 1rem;
 	}
-	input, textarea {
+	input,
+	textarea {
 		border: 0;
-		background-color: #f6f6f6;
+		background-color: var(--grey);
 		border-radius: 5px;
 	}
 	form {
@@ -166,11 +186,12 @@ const { id } = Astro.props;
 		margin-bottom: 1rem;
 	}
 
-	input:hover, textarea:hover {
+	input:hover,
+	textarea:hover {
 		outline: var(--red) 2px solid;
 	}
 
-	input[type="submit"]{
+	input[type="submit"] {
 		margin-top: 0.25rem;
 		background-color: var(--red);
 		color: white;
