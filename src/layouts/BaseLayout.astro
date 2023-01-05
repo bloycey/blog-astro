@@ -1,8 +1,8 @@
 ---
-import "../styles/global.css"
-import FooterWithSubscribe from '../components/FooterWithSubscribe.astro';
+import "../styles/global.css";
+import FooterWithSubscribe from "../components/FooterWithSubscribe.astro";
 const { title, image, description } = Astro.props;
-const url = Astro.url
+const url = Astro.url;
 ---
 
 <!DOCTYPE html>
@@ -18,8 +18,11 @@ const url = Astro.url
 		<meta property="og:image" content={image} />
 		<meta property="og:site_name" content="Bloycey Blog" />
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:title" content={`Bloycey Blog: ${title}`}>
-		<meta property="twitter:description" content={description || "Bloycey's Blog"} />
+		<meta property="twitter:title" content={`Bloycey Blog: ${title}`} />
+		<meta
+			property="twitter:description"
+			content={description || "Bloycey's Blog"}
+		/>
 		<meta property="twitter:image" content={image} />
 		<meta property="twitter:site" content="@bloycey" />
 		<meta property="twitter:creator" content="@bloycey" />
@@ -28,98 +31,130 @@ const url = Astro.url
 		<title>Bloycey Blog: {title}</title>
 		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
 		<link rel="alternate icon" href="/favicon.ico" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,600&family=Space+Mono:wght@700&display=swap"
-			rel="stylesheet"
-		/>
 	</head>
 	<body>
 		<nav id="menu-overlay" class="display-none">
 			<ul>
 				<li>
-					<a href="/" aria-current={url.pathname === "/" || url.pathname.includes("/posts") ? "page" : "false"}>Blog</a>
+					<a
+						href="/"
+						aria-current={url.pathname === "/" ||
+						url.pathname.includes("/posts")
+							? "page"
+							: "false"}>Blog</a
+					>
 				</li>
 				<li>
-					<a href="/useful-links-library" aria-current={url.pathname === "/useful-links-library" ? "page" : "false"}>Useful links</a>
+					<a
+						href="/useful-links-library"
+						aria-current={url.pathname === "/useful-links-library"
+							? "page"
+							: "false"}>Useful links</a
+					>
 				</li>
 				<li>
-					<a href="/about" aria-current={url.pathname === "/about" ? "page" : "false"}>Who is bloycey?</a>
+					<a
+						href="/about"
+						aria-current={url.pathname === "/about"
+							? "page"
+							: "false"}>Who is bloycey?</a
+					>
 				</li>
 			</ul>
 			<button class="menu-toggle close-btn">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M6 18L18 6M6 6l12 12"></path>
 				</svg>
-				<span>
-					Close
-				</span>
+				<span> Close</span>
 			</button>
 		</nav>
 		<nav class="main-nav">
 			<a href="/" class="mono">bloycey.blog</a>
 			<button class="menu-toggle">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="w-6 h-6"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
 				</svg>
-				<span>
-					Menu
-				</span>
+				<span> Menu</span>
 			</button>
 		</nav>
 		<main>
 			<slot />
 		</main>
 		<FooterWithSubscribe />
-		<script is:inline src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+		<script
+			is:inline
+			src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"
+		></script>
 	</body>
 </html>
 
 <script>
-	window.addEventListener('DOMContentLoaded', (event) => {
+	window.addEventListener("DOMContentLoaded", event => {
 		const menuOverlay = document.getElementById("menu-overlay");
 		const menuBtns = document.querySelectorAll(".menu-toggle");
 
 		const menuIsOpen = () => {
 			const menuOverlay = document.getElementById("menu-overlay");
-			return !menuOverlay.classList.contains("display-none")
-		}
+			return !menuOverlay.classList.contains("display-none");
+		};
 
 		const focusFirstMenuItem = () => {
 			const firstListItem = menuOverlay.querySelector("li a");
 			firstListItem.focus();
-		}
+		};
 
 		document.addEventListener("focusin", event => {
 			if (menuIsOpen() && !menuOverlay.contains(event.target)) {
-				focusFirstMenuItem()
+				focusFirstMenuItem();
 			}
-		})
+		});
 
 		window.addEventListener("keydown", event => {
-			if (event.key === "Escape" && menuIsOpen() ) {
+			if (event.key === "Escape" && menuIsOpen()) {
 				menuOverlay.classList.add("display-none");
 			}
 		});
 
 		menuBtns.forEach(btn => {
 			btn.addEventListener("click", () => {
-				toggleMenu()
-			})
-		})
+				toggleMenu();
+			});
+		});
 
 		const toggleMenu = () => {
 			menuOverlay.classList.toggle("display-none");
 			if (menuIsOpen()) {
-				focusFirstMenuItem()
+				focusFirstMenuItem();
 			}
-		}
+		};
 	});
 </script>
 
 <style>
-	.main-nav a:focus-visible, .main-nav button:focus-visible, #menu-overlay a:focus-visible, #menu-overlay button:focus-visible {
+	.main-nav a:focus-visible,
+	.main-nav button:focus-visible,
+	#menu-overlay a:focus-visible,
+	#menu-overlay button:focus-visible {
 		outline-color: #ffffff;
 	}
 	#menu-overlay {
@@ -131,10 +166,12 @@ const url = Astro.url
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background-image: radial-gradient(circle,
+		background-image: radial-gradient(
+			circle,
 			var(--dark-red),
 			var(--red),
-			var(--light-red));
+			var(--light-red)
+		);
 		z-index: 99;
 	}
 
@@ -153,7 +190,6 @@ const url = Astro.url
 		text-decoration-style: wavy;
 		text-underline-offset: 0.5rem;
 		padding-bottom: 1rem;
-
 	}
 
 	#menu-overlay ul {
@@ -190,7 +226,7 @@ const url = Astro.url
 		width: 1.25rem;
 	}
 	main {
-		min-height: 50vh
+		min-height: 50vh;
 	}
 	.main-nav {
 		padding: 0.75rem 1rem;
@@ -200,7 +236,7 @@ const url = Astro.url
 		background-color: var(--red);
 	}
 
-	@media (min-width: 767px){
+	@media (min-width: 767px) {
 		.main-nav {
 			padding: 0.5rem 1rem;
 		}
