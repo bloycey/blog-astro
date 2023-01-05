@@ -11,6 +11,7 @@
 /* ibm-plex-sans-regular - latin */
 @font-face {
 	font-family: "IBM Plex Sans";
+	font-display: swap;
 	font-style: normal;
 	font-weight: 400;
 	src: local(""),
@@ -23,6 +24,7 @@
 /* ibm-plex-sans-600italic - latin */
 @font-face {
 	font-family: "IBM Plex Sans";
+	font-display: swap;
 	font-style: italic;
 	font-weight: 600;
 	src: local(""),
@@ -35,6 +37,7 @@
 /* ibm-plex-sans-700 - latin */
 @font-face {
 	font-family: "IBM Plex Sans";
+	font-display: swap;
 	font-style: normal;
 	font-weight: 700;
 	src: local(""),
@@ -48,6 +51,7 @@
 /* space-mono-700 - latin */
 @font-face {
 	font-family: "Space Mono";
+	font-display: swap;
 	font-style: normal;
 	font-weight: 700;
 	src: local(""),
@@ -151,13 +155,6 @@ html {
 	background-size: 110px;
 	background-color: var(--white);
 }
-
-/* @media (prefers-color-scheme: dark) {
-	html {
-		background: var(--black);
-		color: var(--white);
-	}
-} */
 
 @media (min-width: 767px) {
 	html {
