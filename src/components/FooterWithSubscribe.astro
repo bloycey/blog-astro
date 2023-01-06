@@ -229,7 +229,7 @@
 
 		const formData = Object.fromEntries(new FormData(subscribeForm));
 
-		const response = await fetch("/.netlify/functions/add-subscriber", {
+		await fetch("/.netlify/functions/add-subscriber", {
 			method: "POST",
 			body: JSON.stringify({
 				name: formData.name,

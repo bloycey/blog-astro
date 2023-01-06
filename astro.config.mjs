@@ -8,7 +8,8 @@ export default defineConfig({
   integrations: [mdx()],
   markdown: {
     shikiConfig: {
-      theme: 'dracula'
+      theme: 'dracula',
+      wrap: false
     }
   }
 });

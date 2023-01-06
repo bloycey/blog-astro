@@ -1,0 +1,83 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: "Using Supabase to manage a subscriber list"
+date: "11-22-2022"
+id: "build-blog-pt-2"
+description: "Supabase + Netlify Functions"
+draft: true
+---
+
+import FancyLink from "../../components/FancyLink.astro";
+export const components = { a: FancyLink };
+
+Why were there no waiters at the developer conference?
+
+> Because it was a serverless function.
+
+Ok, now that I've got that out of my system I'd like to tell you all about how I used [Supabase](https://supabase.com/) to manage a subscriber list for my blog.
+
+The first question you might be wondering is why you'd got through the bother of setting up a database for storing subscribers when there are so many third-party providers that do exactly this ([Mailchimp](https://mailchimp.com/) and [Buttondown](https://buttondown.email/) are 2 popular options). It's a question that I asked myself too!
+
+There are a few reasons why I decided to store my subscribers independently in my own database:
+
+1. I'm indecisive and didn't know exactly how I was going to use the data. Self hosting the data is a lot more flexible than using a third-party provider;
+2. I want to spend as little money as possible! Supabase is very generous on their free tier so it suits me nicely.
+3. This is a personal blog so part of the fun is learning new things and building things myself!
+
+```js
+const subscribeForm = document.getElementById("subscribe-form");
+
+subscribeForm.addEventListener("submit", async event => {
+	event.preventDefault();
+
+	const formData = Object.fromEntries(new FormData(subscribeForm));
+
+	await fetch("/.netlify/functions/add-subscriber", {
+		method: "POST",
+		body: JSON.stringify({
+			name: formData.name,
+			email: formData.email,
+			last_name: formData.last_name
+		})
+	}).then(response => response.json());
+
+	// No matter what we show the success state, even if we've blocked a scammer with the honeypot.
+	subscribeForm.reset();
+});
+```
+
+```html
+<form id="subscribe-form" name="subscribe" data-netlify="true">
+	<fieldset>
+		<label for="name-field"> Name: </label>
+		<input
+			type="text"
+			name="name"
+			required="true"
+			id="name-field"
+			placeholder="Colonel Mustard"
+		/>
+	</fieldset>
+	<fieldset class="visually-hidden">
+		<label for="last-name-subscribe-field">Last Name:</label>
+		<input
+			type="text"
+			id="last-name-subscribe-field"
+			name="last_name"
+			autocomplete="off"
+			tabindex="-1"
+		/>
+	</fieldset>
+	<fieldset>
+		<label for="email-field">Email:</label>
+		<input
+			type="email"
+			name="email"
+			id="email-field"
+			required="true"
+			placeholder="thecolonel@mustard.com"
+		/>
+	</fieldset>
+	<input type="submit" value="Subscribe" />
+</form>
+```
