@@ -24,30 +24,15 @@ There are a few reasons why I decided to store my subscribers independently in m
 2. I want to spend as little money as possible! Supabase is very generous on their free tier so it suits me nicely.
 3. This is a personal blog so part of the fun is learning new things and building things myself!
 
-```js
-const subscribeForm = document.getElementById("subscribe-form");
+Let's get right into it!
 
-subscribeForm.addEventListener("submit", async event => {
-	event.preventDefault();
+## The Markup
 
-	const formData = Object.fromEntries(new FormData(subscribeForm));
-
-	await fetch("/.netlify/functions/add-subscriber", {
-		method: "POST",
-		body: JSON.stringify({
-			name: formData.name,
-			email: formData.email,
-			last_name: formData.last_name
-		})
-	}).then(response => response.json());
-
-	// No matter what we show the success state, even if we've blocked a scammer with the honeypot.
-	subscribeForm.reset();
-});
-```
+There's nothing too complex going on here, just a simple HTML form element with a few inputs.
 
 ```html
-<form id="subscribe-form" name="subscribe" data-netlify="true">
+<!--HTML -->
+<form id="subscribe-form" name="subscribe">
 	<fieldset>
 		<label for="name-field"> Name: </label>
 		<input
@@ -80,4 +65,98 @@ subscribeForm.addEventListener("submit", async event => {
 	</fieldset>
 	<input type="submit" value="Subscribe" />
 </form>
+```
+
+🤔 But hold up, what's with the `visually-hidden` class on the middle fieldset? That's a [honeypot](<https://en.wikipedia.org/wiki/Honeypot_(computing)>)! It's a hidden field that's designed to trick bots into filling it out. If the field is filled out then we know we've caught a bot and we can ignore the submission.
+
+I've added the honeypot to a believable field with the name attribute of `last-name` (I'm not collecting a last name, but bots don't know this!). Bots are getting more and more clever so don't go naming the field "honeypot" or there's a chance that a smart bot won't fall for your trap!
+
+The `visually-hidden` class applies the following CSS, which just yeets the fieldset off the left-hand side of the page - out of view for any human. It's also got a a `tabindex` of `-1` so that it's not focusable by keyboard users.
+
+```css
+/* CSS */
+.visually-hidden {
+	position: absolute;
+	left: -9999px;
+}
+```
+
+Next up we've got some JS to handle the form submission and shoot the data off to our serverless function via [Netlify](https://www.netlify.com/). I've heard great things about [Vercel](https://vercel.com/)too, so you could try Vercel, but my experience with Netlify has been excellent so I'll be sticking with them.
+
+```js
+// JS
+
+const subscribeForm = document.getElementById("subscribe-form");
+
+subscribeForm.addEventListener("submit", async event => {
+	// We are using JS so don't refresh the page.
+	event.preventDefault();
+
+	// Format the form data into an object
+	const formData = Object.fromEntries(new FormData(subscribeForm));
+
+	// Send the data to our netlify serverless function
+	await fetch("/.netlify/functions/add-subscriber", {
+		method: "POST",
+		body: JSON.stringify({
+			name: formData.name,
+			email: formData.email,
+			last_name: formData.last_name
+		})
+	}).then(response => response.json());
+
+	// Reset the form
+	subscribeForm.reset();
+});
+```
+
+The `Object.fromEntries(new FormData(subscribeForm));` is a neat trick that takes the form data and converts it into an object like this:
+
+```js
+// JS
+{
+	name: "Colonel Mustard",
+	email: "thecolonel@mustard.com",
+}
+```
+
+From here the netlify serverless function can receive our feth request and respond accordingly. Notice that if there is anything in the last_name field I immediately return a 500 status and don't hit the supabase database.
+
+```js
+//JS
+import * as dotenv from "dotenv";
+import { createClient } from "@supabase/supabase-js";
+
+dotenv.config();
+
+// Create a single supabase client for interacting with your database
+const supabase = createClient(process.env.DATABASE, process.env.DATABASE_KEY);
+
+export const handler = async (event, context) => {
+	const { email, name, last_name } = JSON.parse(event.body);
+
+	if (last_name) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				status: 500,
+				message: "Honeypot triggered"
+			})
+		};
+	}
+
+	const { data, error } = await supabase
+		.from("subscribers")
+		.insert({ email, name })
+		.select();
+
+	return {
+		statusCode: 200,
+		body: JSON.stringify({
+			status: 200,
+			message: data,
+			error: error
+		})
+	};
+};
 ```

@@ -242,6 +242,7 @@ code {
 pre.astro-code {
 	background-color: transparent !important;
 	margin-top: 0;
+	margin-bottom: 2rem;
 }
 
 pre code::before {

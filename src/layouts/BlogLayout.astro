@@ -166,6 +166,22 @@ const { frontmatter } = Astro.props;
 			margin: 0;
 		}
 	}
+
+	.astro-code {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+
+	@media (min-width: 1600px) {
+		.astro-code {
+			width: 100%;
+			max-width: 1400px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
 </style>
 
 <script>
