@@ -22,7 +22,6 @@ export const handler = async (event, context) => {
 	const { data, error } = await supabase
 		.from('subscribers')
 		.insert({ email, name })
-		.select()
 
 	return {
 		statusCode: 200,

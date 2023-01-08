@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/BlogLayout.astro
-title: "Using Supabase to manage a subscriber list"
+title: "Using Supabase to store a subscriber list"
 date: "11-22-2022"
 id: "build-blog-pt-2"
 description: "Supabase + Netlify Functions"
@@ -24,9 +24,11 @@ There are a few reasons why I decided to store my subscribers independently in m
 2. I want to spend as little money as possible! Supabase is very generous on their free tier so it suits me nicely.
 3. This is a personal blog so part of the fun is learning new things and building things myself!
 
-Let's get right into it!
+Ok, great, but why Supabase?
 
-## The Markup
+Let's be real - I'm not a backend dev. My knowledge of databases is minimal and I'm totally fine with that. I think that services like Firebase, Supabase, and Mongo Atlas are made for people like me. Yes, they all provide slightly different _flavours_ of database: relational, non-relational, JSON. But really that doesn't matter so much to me. What matters to me about these services is that they provide a simple database structure, with an easy to use API, and minimal setup. All three of the solutions I mentioned fit this brief, however this time I went with Supabase because it's the new kid on the block and I wanted to try it out (so far it's been great!).
+
+## The Code
 
 There's nothing too complex going on here, just a simple HTML form element with a few inputs.
 
@@ -133,8 +135,11 @@ dotenv.config();
 const supabase = createClient(process.env.DATABASE, process.env.DATABASE_KEY);
 
 export const handler = async (event, context) => {
+	// De-structure the data from the request
 	const { email, name, last_name } = JSON.parse(event.body);
 
+	// We are expecting last_name to be empty
+	// If not, we've caught a bot!
 	if (last_name) {
 		return {
 			statusCode: 500,
@@ -145,10 +150,10 @@ export const handler = async (event, context) => {
 		};
 	}
 
+	// Send the data to supabase
 	const { data, error } = await supabase
 		.from("subscribers")
-		.insert({ email, name })
-		.select();
+		.insert({ email, name });
 
 	return {
 		statusCode: 200,
@@ -160,3 +165,15 @@ export const handler = async (event, context) => {
 	};
 };
 ```
+
+If you want a full explanation of how the above code works you can check out [the docs](https://docs.netlify.com/functions/overview/) but nothing too fancy is going on here.
+
+First we destructure the data from the request, then we check if the honeypot has been triggered. If it has we return a 500 status code and don't hit the database. If it hasn't we send the data to the database and return a 200 status code.
+
+## Recap
+
+So, what did we achieve here? We've built a simple form that collects names and email adresses and stores them in a database. We've also added a honeypot to catch bots and prevent our database filling up with junk data. So what?
+
+Well effectively we've built _half_ of a newsletter service. The fun part comes next where we'll hook up a service for sending emails to subscribers using the email addresses we've been collecting using the subscribe form! Keep an eye out for the next post... Or better yet
+
+> Subscribe using the form below!
