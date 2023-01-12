@@ -6,6 +6,8 @@
 	--white: #ffffff;
 	--black: #111111;
 	--line-height: 170%;
+	--dark-bg: #28293d;
+	--shadow: inset 0 0 5px #a5a5a5;
 }
 
 /* ibm-plex-sans-regular - latin */
@@ -234,7 +236,7 @@ hr:after {
 
 code {
 	background-color: var(--grey);
-	box-shadow: inset 0 0 5px #a5a5a5;
+	box-shadow: var(--shadow);
 	padding: 0.25rem;
 	border-radius: 5px;
 }
@@ -304,6 +306,10 @@ blockquote {
 		content: url("../images/scribble_red.svg");
 		position: absolute;
 		left: -3.5rem;
+	}
+
+	html.dark blockquote::before {
+		content: url("../images/scribble_bright.svg");
 	}
 }
 
@@ -414,4 +420,21 @@ fieldset[type="text"] label {
 .visually-hidden {
 	position: absolute;
 	left: -9999px;
+}
+
+/* Dark mode */
+
+html.dark {
+	background-color: #263d40;
+	background-image: none;
+	--dark-red: #263d40;
+	--red: #2a555a;
+	--light-red: #2a555a;
+	--bright: #00b8ab;
+	--grey: #152a2d;
+	--shadow: inset 0 0 5px #111111;
+}
+
+html.dark body {
+	color: #e9f1f2;
 }
