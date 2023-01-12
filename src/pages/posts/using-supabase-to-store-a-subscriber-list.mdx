@@ -1,10 +1,10 @@
 ---
 layout: ../../layouts/BlogLayout.astro
 title: "Using Supabase to store a subscriber list"
-date: "11-22-2022"
+date: "01-11-2023"
 id: "build-blog-pt-2"
 description: "Supabase + Netlify Functions"
-draft: true
+draft: false
 ---
 
 import FancyLink from "../../components/FancyLink.astro";
@@ -26,7 +26,7 @@ There are a few reasons why I decided to store my subscribers independently in m
 
 Ok, great, but why Supabase?
 
-Let's be real - I'm not a backend dev. My knowledge of databases is minimal and I'm totally fine with that. I think that services like Firebase, Supabase, and Mongo Atlas are made for people like me. Yes, they all provide slightly different _flavours_ of database: relational, non-relational, JSON. But really that doesn't matter so much to me. What matters to me about these services is that they provide a simple database structure, with an easy to use API, and minimal setup. All three of the solutions I mentioned fit this brief, however this time I went with Supabase because it's the new kid on the block and I wanted to try it out (so far it's been great!).
+Let's be real - I'm not a backend dev. My knowledge of databases is minimal and I'm totally fine with that. I think that services like Firebase, Supabase, and Mongo Atlas are made for people like me. Yes, they all provide slightly different _flavours_ of database: relational, non-relational, JSON. But really that doesn't matter so much to me. What matters to me with these services is that they provide a simple database structure, an easy to use API, and minimal setup. All three of the solutions I mentioned fit this brief, however this time I went with Supabase because it's the new kid on the block and I wanted to try it out (so far it's been great!).
 
 ## The Code
 
@@ -122,7 +122,7 @@ The `Object.fromEntries(new FormData(subscribeForm));` is a neat trick that take
 }
 ```
 
-From here the netlify serverless function can receive our feth request and respond accordingly. Notice that if there is anything in the last_name field I immediately return a 500 status and don't hit the supabase database.
+From here the netlify serverless function can receive our fetch request and respond accordingly.
 
 ```js
 //JS
@@ -166,14 +166,14 @@ export const handler = async (event, context) => {
 };
 ```
 
-If you want a full explanation of how the above code works you can check out [the docs](https://docs.netlify.com/functions/overview/) but nothing too fancy is going on here.
+If you want a full explanation of how the above code works you can check out [the docs](https://docs.netlify.com/functions/overview/).
 
-First we destructure the data from the request, then we check if the honeypot has been triggered. If it has we return a 500 status code and don't hit the database. If it hasn't we send the data to the database and return a 200 status code.
+Notice that if there is anything in the `last_name` field I immediately return a `500` status and don't hit the supabase database. If the data looks good we send it to the Supabase database and return a 200 status code.
 
 ## Recap
 
 So, what did we achieve here? We've built a simple form that collects names and email adresses and stores them in a database. We've also added a honeypot to catch bots and prevent our database filling up with junk data. So what?
 
-Well effectively we've built _half_ of a newsletter service. The fun part comes next where we'll hook up a service for sending emails to subscribers using the email addresses we've been collecting using the subscribe form! Keep an eye out for the next post... Or better yet
+Well, effectively we've built _half_ of a newsletter service. The fun part comes next where we'll hook up a service for sending emails to subscribers using the email addresses we've been collecting using the subscribe form! Keep an eye out for the next post. Or better yet...
 
 > Subscribe using the form below!
