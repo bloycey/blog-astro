@@ -14,7 +14,9 @@ const { frontmatter } = Astro.props;
 	<div class="magic-grid">
 		<h1>{frontmatter.title}</h1>
 		<div>
-			<Underline />
+			<div class="underline">
+				<Underline />
+			</div>
 		</div>
 	</div>
 	<div class="magic-grid">
@@ -72,6 +74,15 @@ const { frontmatter } = Astro.props;
 </BaseLayout>
 
 <style>
+	.underline {
+		margin-top: -0.75rem;
+	}
+
+	@media (min-width: 767px) {
+		.underline {
+			margin-top: 0;
+		}
+	}
 	.about-wrapper {
 		display: flex;
 		flex-direction: column;

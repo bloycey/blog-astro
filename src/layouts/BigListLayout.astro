@@ -8,7 +8,9 @@ const { frontmatter } = Astro.props;
 	<article class="blog">
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
-			<Underline />
+			<div class="underline">
+				<Underline />
+			</div>
 		</div>
 		<div class="magic-grid main-content">
 			<slot />
@@ -17,6 +19,15 @@ const { frontmatter } = Astro.props;
 </BaseLayout>
 
 <style>
+	.underline {
+		margin-top: -0.75rem;
+	}
+
+	@media (min-width: 767px) {
+		.underline {
+			margin-top: 0;
+		}
+	}
 	html.dark a {
 		color: var(--bright);
 	}

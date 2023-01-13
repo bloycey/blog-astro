@@ -16,7 +16,9 @@ const { frontmatter } = Astro.props;
 				>{new Date(frontmatter.date).toDateString()}</span
 			>
 			<h1>{frontmatter.title}</h1>
-			<Underline />
+			<div class="underline">
+				<Underline />
+			</div>
 		</div>
 		<div class="magic-grid blog-content">
 			<slot />
@@ -29,6 +31,16 @@ const { frontmatter } = Astro.props;
 	.blog-content {
 		margin-top: 1rem;
 		margin-bottom: 2rem;
+	}
+
+	.underline {
+		margin-top: -0.75rem;
+	}
+
+	@media (min-width: 767px) {
+		.underline {
+			margin-top: 0;
+		}
 	}
 
 	.blog-date {
