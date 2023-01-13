@@ -12,13 +12,13 @@ const { frontmatter } = Astro.props;
 >
 	<article class="blog" data-blog-id={frontmatter.id}>
 		<div class="magic-grid">
-			<h1>{frontmatter.title}</h1>
-			<Underline />
 			<span class="blog-date mono"
 				>{new Date(frontmatter.date).toDateString()}</span
 			>
+			<h1>{frontmatter.title}</h1>
+			<Underline />
 		</div>
-		<div class="magic-grid">
+		<div class="magic-grid blog-content">
 			<slot />
 		</div>
 	</article>
@@ -32,9 +32,10 @@ const { frontmatter } = Astro.props;
 	}
 
 	.blog-date {
-		margin-top: 1rem;
-		margin-bottom: 3rem;
+		margin-top: 3rem;
+		margin-bottom: 1rem;
 		color: var(--red);
+		font-size: 0.75rem;
 	}
 
 	html.dark .blog-date {
@@ -62,7 +63,6 @@ const { frontmatter } = Astro.props;
 	}
 
 	.blog h1 {
-		margin-top: 4rem;
 		margin-bottom: 0.5rem;
 		font-size: 2rem;
 	}

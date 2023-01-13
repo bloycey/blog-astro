@@ -17,9 +17,7 @@ const { date, title, description, url } = Astro.props;
 				fill="#D43B57"></path>
 		</svg>
 		<div>
-			<span class="mono uppercase date"
-				>{new Date(date).toDateString()}</span
-			>
+			<span class="mono date">{new Date(date).toDateString()}</span>
 			<h2>{title}</h2>
 		</div>
 		<p>
@@ -100,8 +98,8 @@ const { date, title, description, url } = Astro.props;
 	}
 
 	@media (max-width: 767px) {
-		span.date {
-			font-size: 1rem;
+		h2 {
+			font-size: 1.25rem;
 		}
 		a svg {
 			display: none;
