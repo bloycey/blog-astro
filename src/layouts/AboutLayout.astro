@@ -1,20 +1,32 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from "./BaseLayout.astro";
 import underline from "../images/underline.svg";
-import andrew from "../images/andrew.jpeg"
+import andrew from "../images/andrew.jpeg";
 import globe from "../images/globe.svg";
 import linkedIn from "../images/linkedin.svg";
 import github from "../images/github.svg";
 import mail from "../images/mail.svg";
-import twitter from "../images/twitter.svg"
+import twitter from "../images/twitter.svg";
 const { frontmatter } = Astro.props;
-
 ---
 
 <BaseLayout title={frontmatter.title}>
 	<div class="magic-grid">
 		<h1>{frontmatter.title}</h1>
-		<img src={underline} alt="Scribble underline" />
+		<svg
+			width="959"
+			height="96"
+			viewBox="0 0 959 96"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M5 10.859C120.167 -4.30764 399.52 14.3542 481 17.859C571 21.7304 921.5 11.2304 812.5 28.859C691.571 48.4168 557.5 37.359 624.5 49.859C691.5 62.359 794.5 49.859 840.5 49.859C877.3 49.859 939.667 81.7931 954 90.6264"
+				stroke="#D43B57"
+				stroke-width="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"></path>
+		</svg>
 	</div>
 	<div class="magic-grid">
 		<div class="about-wrapper">
@@ -23,7 +35,11 @@ const { frontmatter } = Astro.props;
 			</div>
 			<aside>
 				<div class="about-header">
-					<img src={andrew} alt="Andrew Bloyce portrait" class="portrait"/>
+					<img
+						src={andrew}
+						alt="Andrew Bloyce portrait"
+						class="portrait"
+					/>
 				</div>
 				<div class="about-info">
 					<ul>
@@ -40,7 +56,9 @@ const { frontmatter } = Astro.props;
 							</a>
 						</li>
 						<li>
-							<a href="https://www.linkedin.com/in/andrew-bloyce/">
+							<a
+								href="https://www.linkedin.com/in/andrew-bloyce/"
+							>
 								<img src={linkedIn} alt="Linked In Icon" />
 								<span>Linked In</span>
 							</a>
@@ -65,6 +83,9 @@ const { frontmatter } = Astro.props;
 </BaseLayout>
 
 <style>
+	html.dark svg path {
+		stroke: var(--bright);
+	}
 	.about-wrapper {
 		display: flex;
 		flex-direction: column;
@@ -110,17 +131,16 @@ const { frontmatter } = Astro.props;
 		font-size: 1.25rem;
 	}
 
-
 	.about-info a {
 		display: inline-flex;
 		align-items: center;
 		gap: 1rem;
 		color: #ffffff;
-		transition: all 0.3s ease
+		transition: all 0.3s ease;
 	}
 
 	.about-info a:hover {
-		transform: translateY(-0.18rem)
+		transform: translateY(-0.18rem);
 	}
 
 	h1 {

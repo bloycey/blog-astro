@@ -1,12 +1,13 @@
 ---
 import "../styles/global.css";
 import FooterWithSubscribe from "../components/FooterWithSubscribe.astro";
+import DarkmodeToggler from "../components/DarkmodeToggler.astro";
 const { title, image, description } = Astro.props;
 const url = Astro.url;
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -31,6 +32,14 @@ const url = Astro.url;
 		<title>Bloycey Blog: {title}</title>
 		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
 		<link rel="alternate icon" href="/favicon.ico" />
+		<script is:inline>
+			const darkmode = localStorage.getItem("darkmode");
+			if (darkmode === "true") {
+				document.documentElement.classList.add("dark");
+			} else {
+				document.documentElement.classList.remove("dark");
+			}
+		</script>
 	</head>
 	<body>
 		<nav id="menu-overlay" class="display-none">
@@ -60,6 +69,9 @@ const url = Astro.url;
 							: "false"}>Who is bloycey?</a
 					>
 				</li>
+				<li class="dark-wrapper">
+					<DarkmodeToggler />
+				</li>
 			</ul>
 			<button class="menu-toggle close-btn">
 				<svg
@@ -80,22 +92,25 @@ const url = Astro.url;
 		</nav>
 		<nav class="main-nav">
 			<a href="/" class="mono">bloycey.blog</a>
-			<button class="menu-toggle">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="w-6 h-6"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-				</svg>
-				<span> Menu</span>
-			</button>
+			<div class="menu-right">
+				<button class="menu-toggle">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+						></path>
+					</svg>
+					<span> Menu</span>
+				</button>
+			</div>
 		</nav>
 		<main>
 			<slot />
@@ -151,6 +166,10 @@ const url = Astro.url;
 </script>
 
 <style>
+	.menu-right {
+		display: flex;
+		gap: 1rem;
+	}
 	.main-nav a:focus-visible,
 	.main-nav button:focus-visible,
 	#menu-overlay a:focus-visible,
@@ -177,7 +196,7 @@ const url = Astro.url;
 
 	#menu-overlay a {
 		color: #ffffff;
-		font-size: 10vw;
+		font-size: 8vw;
 		text-decoration: none;
 		font-weight: bold;
 		text-transform: uppercase;
@@ -202,7 +221,7 @@ const url = Astro.url;
 		margin-bottom: 1.5rem;
 	}
 
-	#menu-overlay ul li:hover {
+	#menu-overlay ul li:not(.dark-wrapper):hover {
 		transform: translateY(-0.25rem);
 	}
 	.close-btn {

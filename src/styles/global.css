@@ -116,7 +116,8 @@ a:not([class]) {
 
 /* Make images easier to work with */
 img,
-picture {
+picture,
+svg {
 	max-width: 100%;
 	display: block;
 }
@@ -218,9 +219,14 @@ a {
 	color: var(--red);
 }
 
+html.dark a {
+	color: var(--bright);
+}
+
 hr {
 	width: 100%;
 	border: 0;
+	margin-bottom: 1.5rem;
 }
 
 hr:after {
@@ -232,6 +238,10 @@ hr:after {
 	text-decoration-style: wavy;
 	color: transparent;
 	text-decoration-color: var(--red);
+}
+
+html.dark hr:after {
+	text-decoration-color: var(--bright);
 }
 
 code {

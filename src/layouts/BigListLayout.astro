@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
@@ -8,16 +7,37 @@ const { frontmatter } = Astro.props;
 	<article class="blog">
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
-			<img src={underline} alt="Scribble underline" />
+			<svg
+				width="959"
+				height="96"
+				viewBox="0 0 959 96"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M5 10.859C120.167 -4.30764 399.52 14.3542 481 17.859C571 21.7304 921.5 11.2304 812.5 28.859C691.571 48.4168 557.5 37.359 624.5 49.859C691.5 62.359 794.5 49.859 840.5 49.859C877.3 49.859 939.667 81.7931 954 90.6264"
+					stroke="#D43B57"
+					stroke-width="10"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
 		</div>
 		<div class="magic-grid main-content">
-			<slot/>
+			<slot />
 		</div>
 	</article>
 </BaseLayout>
 
-<style is:global>
+<style>
+	html.dark a {
+		color: var(--bright);
+	}
+</style>
 
+<style is:global>
+	html.dark svg path {
+		stroke: var(--bright);
+	}
 	summary + h3 {
 		margin-top: 1rem;
 	}
