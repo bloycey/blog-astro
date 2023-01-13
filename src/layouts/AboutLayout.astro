@@ -1,20 +1,21 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import underline from "../images/underline.svg";
-import andrew from "../images/andrew.jpeg"
+import BaseLayout from "./BaseLayout.astro";
+import andrew from "../images/andrew.jpeg";
 import globe from "../images/globe.svg";
 import linkedIn from "../images/linkedin.svg";
 import github from "../images/github.svg";
 import mail from "../images/mail.svg";
-import twitter from "../images/twitter.svg"
+import twitter from "../images/twitter.svg";
+import Underline from "../components/Underline.astro";
 const { frontmatter } = Astro.props;
-
 ---
 
 <BaseLayout title={frontmatter.title}>
 	<div class="magic-grid">
 		<h1>{frontmatter.title}</h1>
-		<img src={underline} alt="Scribble underline" />
+		<div>
+			<Underline />
+		</div>
 	</div>
 	<div class="magic-grid">
 		<div class="about-wrapper">
@@ -23,7 +24,11 @@ const { frontmatter } = Astro.props;
 			</div>
 			<aside>
 				<div class="about-header">
-					<img src={andrew} alt="Andrew Bloyce portrait" class="portrait"/>
+					<img
+						src={andrew}
+						alt="Andrew Bloyce portrait"
+						class="portrait"
+					/>
 				</div>
 				<div class="about-info">
 					<ul>
@@ -40,7 +45,9 @@ const { frontmatter } = Astro.props;
 							</a>
 						</li>
 						<li>
-							<a href="https://www.linkedin.com/in/andrew-bloyce/">
+							<a
+								href="https://www.linkedin.com/in/andrew-bloyce/"
+							>
 								<img src={linkedIn} alt="Linked In Icon" />
 								<span>Linked In</span>
 							</a>
@@ -110,17 +117,16 @@ const { frontmatter } = Astro.props;
 		font-size: 1.25rem;
 	}
 
-
 	.about-info a {
 		display: inline-flex;
 		align-items: center;
 		gap: 1rem;
-		color: #ffffff;
-		transition: all 0.3s ease
+		color: #ffffff !important;
+		transition: all 0.3s ease;
 	}
 
 	.about-info a:hover {
-		transform: translateY(-0.18rem)
+		transform: translateY(-0.18rem);
 	}
 
 	h1 {

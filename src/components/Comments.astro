@@ -149,6 +149,10 @@ const { id } = Astro.props;
 		color: var(--red);
 		font-style: italic;
 	}
+
+	html.dark .author {
+		color: var(--bright);
+	}
 	#comments-list {
 		margin: 0;
 		padding: 0;
@@ -181,6 +185,11 @@ const { id } = Astro.props;
 		padding: 0.5rem;
 	}
 
+	html.dark textarea,
+	html.dark input {
+		color: var(--white);
+	}
+
 	#name-field-comment {
 		padding: 0.5rem;
 		margin-bottom: 1rem;
@@ -198,7 +207,6 @@ const { id } = Astro.props;
 		padding: 0.5rem 1.5rem;
 		width: auto;
 		display: inline-block;
-		box-shadow: 2px 3px;
 		cursor: pointer;
 	}
 

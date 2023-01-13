@@ -1,0 +1,114 @@
+<div class="darkmode-toggler">
+	<label for="light">
+		<input
+			type="radio"
+			name="darkmode"
+			value="false"
+			id="light"
+			checked="checked"
+		/>
+		<div class="selected-indicator"></div>
+		<p>Light ☀️</p>
+	</label>
+	<label for="dark">
+		<input type="radio" name="darkmode" value="true" id="dark" />
+		<p>Dark 🌒</p>
+	</label>
+</div>
+
+<style>
+	.darkmode-toggler {
+		display: inline-flex;
+		align-items: center;
+		background-color: var(--white);
+		border-radius: 9999px;
+		padding: 0.625rem 1.5rem;
+		gap: 2rem;
+		font-size: 1.5rem;
+		position: relative;
+		margin-top: 0.5rem;
+	}
+
+	.darkmode-toggler p {
+		position: relative;
+		z-index: 5;
+		white-space: nowrap;
+	}
+
+	html.dark .darkmode-toggler p {
+		color: var(--red);
+	}
+
+	.darkmode-toggler label {
+		flex: 1;
+		font-size: 1.5rem !important;
+		cursor: pointer;
+	}
+
+	.darkmode-toggler input {
+		display: none;
+	}
+
+	.selected-indicator {
+		position: absolute;
+		transition: all 0.3s ease;
+		top: 50%;
+		z-index: 4;
+	}
+
+	.selected-indicator:after {
+		background-color: var(--red);
+		border-radius: 9999px;
+		color: transparent;
+		height: 3rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		display: block;
+		white-space: nowrap;
+	}
+	.darkmode-toggler input#light + .selected-indicator {
+		left: 100%;
+		transition: all 0.3s ease;
+		transform: translate(calc(-100% - 0.5rem), -50%);
+	}
+
+	.darkmode-toggler input#light + .selected-indicator:after {
+		content: "DARK 🌒";
+	}
+	.darkmode-toggler input#light:checked + .selected-indicator {
+		left: 0.5rem;
+		transition: all 0.3s ease;
+		transform: translate(0%, -50%);
+	}
+
+	.darkmode-toggler input#light:checked + .selected-indicator:after {
+		content: "LIGHT ☀️";
+	}
+
+	.darkmode-toggler input:checked ~ p {
+		color: var(--white);
+		transition: all 0.3s ease;
+	}
+</style>
+
+<script>
+	window.addEventListener("DOMContentLoaded", async event => {
+		const darkmode = localStorage.getItem("darkmode");
+		if (darkmode === "true") {
+			document.getElementById("dark").setAttribute("checked", "checked");
+		} else {
+			document.getElementById("light").setAttribute("checked", "checked");
+		}
+		document.querySelectorAll(".darkmode-toggler input").forEach(input => {
+			input.addEventListener("change", event => {
+				if (event.target.value === "true") {
+					document.documentElement.classList.add("dark");
+					localStorage.setItem("darkmode", "true");
+				} else {
+					document.documentElement.classList.remove("dark");
+					localStorage.setItem("darkmode", "false");
+				}
+			});
+		});
+	});
+</script>

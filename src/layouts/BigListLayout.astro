@@ -1,6 +1,6 @@
 ---
+import Underline from "../components/Underline.astro";
 import BaseLayout from "./BaseLayout.astro";
-import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
@@ -8,16 +8,21 @@ const { frontmatter } = Astro.props;
 	<article class="blog">
 		<div class="magic-grid">
 			<h1>{frontmatter.title}</h1>
-			<img src={underline} alt="Scribble underline" />
+			<Underline />
 		</div>
 		<div class="magic-grid main-content">
-			<slot/>
+			<slot />
 		</div>
 	</article>
 </BaseLayout>
 
-<style is:global>
+<style>
+	html.dark a {
+		color: var(--bright);
+	}
+</style>
 
+<style is:global>
 	summary + h3 {
 		margin-top: 1rem;
 	}
