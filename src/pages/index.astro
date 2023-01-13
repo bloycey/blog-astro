@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogThumbnail from "../components/BlogThumbnail.astro";
 import andrewImg from "../images/andrew.svg";
-import underline from "../images/underline.svg";
+import Underline from "../components/Underline.astro";
 
 const posts = await Astro.glob("./posts/*.mdx");
 const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
@@ -12,7 +12,9 @@ const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
 	<div class="container">
 		<section class="hero-wrapper">
 			<h1>Bloycey's Blog</h1>
-			<img src={underline} alt="underline scribble" class="underline" />
+			<div class="underline">
+				<Underline />
+			</div>
 			<div class="andrew-img">
 				<img
 					src={andrewImg}

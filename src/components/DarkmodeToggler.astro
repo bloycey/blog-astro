@@ -12,7 +12,7 @@
 	</label>
 	<label for="dark">
 		<input type="radio" name="darkmode" value="true" id="dark" />
-		<p>Dark 🌙</p>
+		<p>Dark 🌒</p>
 	</label>
 </div>
 
@@ -26,6 +26,7 @@
 		gap: 2rem;
 		font-size: 1.5rem;
 		position: relative;
+		margin-top: 0.5rem;
 	}
 
 	.darkmode-toggler p {
@@ -72,7 +73,7 @@
 	}
 
 	.darkmode-toggler input#light + .selected-indicator:after {
-		content: "DARK 🌙";
+		content: "DARK 🌒";
 	}
 	.darkmode-toggler input#light:checked + .selected-indicator {
 		left: 0.5rem;

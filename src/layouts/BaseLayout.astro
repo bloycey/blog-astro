@@ -91,7 +91,7 @@ const url = Astro.url;
 			</button>
 		</nav>
 		<nav class="main-nav">
-			<a href="/" class="mono">bloycey.blog</a>
+			<a href="/" class="mono home-link">bloycey.blog</a>
 			<div class="menu-right">
 				<button class="menu-toggle">
 					<svg
@@ -166,6 +166,9 @@ const url = Astro.url;
 </script>
 
 <style>
+	.home-link {
+		color: var(--white) !important;
+	}
 	.menu-right {
 		display: flex;
 		gap: 1rem;
@@ -208,7 +211,7 @@ const url = Astro.url;
 		text-decoration: underline;
 		text-decoration-style: wavy;
 		text-underline-offset: 0.5rem;
-		padding-bottom: 1rem;
+		padding-bottom: 0.75rem;
 	}
 
 	#menu-overlay ul {
