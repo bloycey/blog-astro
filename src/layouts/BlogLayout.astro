@@ -1,7 +1,7 @@
 ---
 import Comments from "../components/Comments.astro";
+import Underline from "../components/Underline.astro";
 import BaseLayout from "./BaseLayout.astro";
-import underline from "../images/underline.svg";
 const { frontmatter } = Astro.props;
 ---
 
@@ -12,13 +12,15 @@ const { frontmatter } = Astro.props;
 >
 	<article class="blog" data-blog-id={frontmatter.id}>
 		<div class="magic-grid">
-			<h1>{frontmatter.title}</h1>
-			<img src={underline} alt="Scribble underline" />
 			<span class="blog-date mono"
 				>{new Date(frontmatter.date).toDateString()}</span
 			>
+			<h1>{frontmatter.title}</h1>
+			<div class="underline">
+				<Underline />
+			</div>
 		</div>
-		<div class="magic-grid">
+		<div class="magic-grid blog-content">
 			<slot />
 		</div>
 	</article>
@@ -27,14 +29,29 @@ const { frontmatter } = Astro.props;
 
 <style>
 	.blog-content {
-		margin-top: 2rem;
+		margin-top: 1rem !important;
 		margin-bottom: 2rem;
 	}
 
+	.underline {
+		margin-top: -0.75rem;
+	}
+
+	@media (min-width: 767px) {
+		.underline {
+			margin-top: 0;
+		}
+	}
+
 	.blog-date {
-		margin-top: 1rem;
-		margin-bottom: 3rem;
+		margin-top: 3rem;
+		margin-bottom: 1rem;
 		color: var(--red);
+		font-size: 0.825rem;
+	}
+
+	html.dark .blog-date {
+		color: var(--bright);
 	}
 </style>
 
@@ -58,7 +75,6 @@ const { frontmatter } = Astro.props;
 	}
 
 	.blog h1 {
-		margin-top: 4rem;
 		margin-bottom: 0.5rem;
 		font-size: 2rem;
 	}
@@ -135,6 +151,10 @@ const { frontmatter } = Astro.props;
 		stroke-dasharray: 69px 278px;
 		stroke-dashoffset: 361px;
 		transition: stroke 0.25s ease 0s, stroke-dasharray 0.2s;
+	}
+
+	html.dark .blog a svg {
+		stroke: var(--bright);
 	}
 
 	.blog a:focus {
