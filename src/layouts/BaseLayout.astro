@@ -15,7 +15,10 @@ const url = Astro.url;
 		<meta name="description" content={description || "Bloycey's Blog"} />
 		<meta property="og:title" content={`Bloycey's Blog: ${title}`} />
 		<meta property="og:type" content="article" />
-		<meta property="og:url" content={`${Astro.site}${url.pathname}`} />
+		<meta
+			property="og:url"
+			content={`${Astro.site}${url.pathname.replace("/", "")}`}
+		/>
 		<meta property="og:image" content={`${Astro.site}social2.jpg`} />
 		<meta property="og:site_name" content="Bloycey Blog" />
 		<meta property="twitter:card" content="summary_large_image" />
