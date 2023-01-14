@@ -16,7 +16,7 @@ const url = Astro.url;
 		<meta property="og:title" content={`Bloycey's Blog: ${title}`} />
 		<meta property="og:type" content="article" />
 		<meta property="og:url" content={url} />
-		<meta property="og:image" content={image} />
+		<meta property="og:image" content={image || "/social2.jpg"} />
 		<meta property="og:site_name" content="Bloycey Blog" />
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:title" content={`Bloycey Blog: ${title}`} />
@@ -24,7 +24,7 @@ const url = Astro.url;
 			property="twitter:description"
 			content={description || "Bloycey's Blog"}
 		/>
-		<meta property="twitter:image" content={image} />
+		<meta property="twitter:image" content={image || "/social2.jpg"} />
 		<meta property="twitter:site" content="@bloycey" />
 		<meta property="twitter:creator" content="@bloycey" />
 		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
