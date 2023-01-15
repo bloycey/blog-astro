@@ -23,7 +23,7 @@ const sendEmail = async ({ emailTitle, emailContent }) => {
 			},
 			Subject: {
 				Charset: 'UTF-8',
-				Data: `Bloycey Blog: ${emailTitle}`
+				Data: emailTitle
 			}
 		},
 		Source: 'Bloycey Blog <andrew@bloycey.blog>', /* required */
