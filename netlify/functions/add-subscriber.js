@@ -26,12 +26,6 @@ export const handler = async (event, context) => {
 
 	const sendPromise = buildSendPromise(`🎉 New Subscriber: ${name}`, `New Subscriber: ${name} - ${email}`);
 	await sendPromise();
-	// await sendEmail({
-	// 	emailTitle: `🎉 New Subscriber: ${name}`,
-	// 	emailContent: `New Subscriber: ${name} - ${email}`
-	// }).catch(err => {
-	// 	console.log(err)
-	// })
 
 	return {
 		statusCode: 200,

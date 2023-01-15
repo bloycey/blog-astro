@@ -33,17 +33,4 @@ const buildParams = (emailTitle, emailContent) => ({
 
 const buildSendPromise = (emailTitle, emailContent) => () => new AWS.SES({ apiVersion: '2010-12-01', accessKeyId: process.env.AWS_ACCESS_KEY_ID_ASTRO, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ASTRO }).sendEmail(buildParams(emailTitle, emailContent)).promise();
 
-// const sendEmail = async ({ emailTitle, emailContent }) => {
-
-// 	sendPromise.then(function (data) {
-// 		if (data) {
-// 			console.log(data);
-// 			console.log(data.MessageId);
-// 		}
-// 	}).catch(function (err) {
-// 		console.error(err, err.stack);
-// 		ThrowError(err);
-// 	});
-// }
-
 export default buildSendPromise;
