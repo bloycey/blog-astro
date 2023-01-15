@@ -40,6 +40,7 @@ const sendEmail = async ({ emailTitle, emailContent }) => {
 		}
 	}).catch(function (err) {
 		console.error(err, err.stack);
+		ThrowError(err);
 	});
 }
 

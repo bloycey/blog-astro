@@ -27,7 +27,9 @@ export const handler = async (event, context) => {
 	await sendEmail({
 		emailTitle: `🎉 New Subscriber: ${name}`,
 		emailContent: `New Subscriber: ${name} - ${email}`
-	});
+	}).catch(err => {
+		console.log(err)
+	})
 
 
 	return {
