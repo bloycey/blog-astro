@@ -15,7 +15,7 @@ export const handler = async (event, context) => {
 		.delete()
 		.eq('email', email)
 
-	sendEmail({
+	await sendEmail({
 		emailTitle: "👋 Unsubscribe Alert",
 		emailContent: `Subscriber Removed: ${email}`
 	})

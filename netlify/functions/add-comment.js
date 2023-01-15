@@ -41,7 +41,7 @@ export const handler = async (event, context) => {
 		.insert({ name, comment, blog_id })
 		.select()
 
-	sendEmail({
+	await sendEmail({
 		emailTitle: `🎉 New Blog Comment: ${name}`,
 		emailContent: `New Blog Comment: ${name} - ${blog_url} - ${comment}`
 	})

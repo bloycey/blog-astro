@@ -24,7 +24,7 @@ export const handler = async (event, context) => {
 		.from('subscribers')
 		.insert({ email, name })
 
-	sendEmail({
+	await sendEmail({
 		emailTitle: `🎉 New Subscriber: ${name}`,
 		emailContent: `New Subscriber: ${name} - ${email}`
 	});
