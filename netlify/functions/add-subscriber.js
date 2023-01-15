@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import { createClient } from '@supabase/supabase-js'
+import sendEmail from '../utils/sendEmail'
 
 dotenv.config()
 
@@ -22,6 +23,12 @@ export const handler = async (event, context) => {
 	const { data, error } = await supabase
 		.from('subscribers')
 		.insert({ email, name })
+
+	sendEmail({
+		emailTitle: `🎉 New Subscriber: ${name}`,
+		emailContent: `New Subscriber: ${name} - ${email}`
+	});
+
 
 	return {
 		statusCode: 200,

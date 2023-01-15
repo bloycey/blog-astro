@@ -103,7 +103,8 @@ const { id } = Astro.props;
 							name: formData.name,
 							comment: formData.comment,
 							last_name: formData.last_name,
-							blog_id: formData.id
+							blog_id: formData.id,
+							blog_url: window.location.href
 						})
 					}
 				).then(result => result.json());

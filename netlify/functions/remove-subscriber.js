@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import { createClient } from '@supabase/supabase-js'
+import sendEmail from '../utils/sendEmail'
 
 dotenv.config()
 
@@ -13,6 +14,11 @@ export const handler = async (event, context) => {
 		.from('subscribers')
 		.delete()
 		.eq('email', email)
+
+	sendEmail({
+		emailTitle: "👋 Unsubscribe Alert",
+		emailContent: `Subscriber Removed: ${email}`
+	})
 
 	return {
 		statusCode: 200,
