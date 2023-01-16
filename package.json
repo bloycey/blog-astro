@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^0.12.1",
+    "@astrojs/rss": "^2.0.0",
     "@supabase/supabase-js": "^2.1.1",
     "astro": "^1.6.14",
     "dotenv": "^16.0.3",
