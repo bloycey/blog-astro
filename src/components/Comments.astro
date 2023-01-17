@@ -8,7 +8,7 @@ const { id } = Astro.props;
 		<input type="hidden" name="id" value={id} />
 		<label for="name-field-comment">Name</label>
 		<input type="text" name="name" id="name-field-comment" required />
-		<fieldset class="visually-hidden">
+		<fieldset class="visually-hidden" aria-hidden="true">
 			<label for="last-name-field">Last Name:</label>
 			<input
 				type="text"

@@ -45,7 +45,7 @@ There's nothing too complex going on here, just a simple HTML form element with 
 			placeholder="Colonel Mustard"
 		/>
 	</fieldset>
-	<fieldset class="visually-hidden">
+	<fieldset class="visually-hidden" aria-hidden="true">
 		<label for="last-name-subscribe-field">Last Name:</label>
 		<input
 			type="text"
@@ -73,7 +73,7 @@ There's nothing too complex going on here, just a simple HTML form element with 
 
 I've added the honeypot to a believable field with the name attribute of `last-name` (I'm not collecting a last name, but bots don't know this!). Bots are getting more and more clever so don't go naming the field "honeypot" or there's a chance that a smart bot won't fall for your trap!
 
-The `visually-hidden` class applies the following CSS, which just yeets the fieldset off the left-hand side of the page - out of view for any human. It's also got a a `tabindex` of `-1` so that it's not focusable by keyboard users.
+The `visually-hidden` class applies the following CSS, which just yeets the fieldset off the left-hand side of the page - out of view for any human. It's also got a a `tabindex` of `-1` so that it's not focusable by keyboard users, and `aria-hidden="true"` so that it isn't announced by screen readers.
 
 ```css
 /* CSS */
