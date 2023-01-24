@@ -5,7 +5,7 @@ const { id } = Astro.props;
 <div class="magic-grid">
 	<h3 class="add-comment-title">Add a comment &nbsp; ✍️</h3>
 	<form id="add-comment">
-		<input type="hidden" name="id" value={id} />
+		<input type="hidden" aria-hidden="true" name="id" value={id} />
 		<label for="name-field-comment">Name</label>
 		<input type="text" name="name" id="name-field-comment" required />
 		<fieldset class="visually-hidden" aria-hidden="true">

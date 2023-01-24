@@ -1,0 +1,119 @@
+---
+layout: ../../layouts/BlogLayout.astro
+title: "Blog comments using Astro and Supabase"
+date: "01-22-2023"
+id: "build-blog-pt-4"
+description: "Comments, spam protection, and rate limiting."
+draft: true
+---
+
+import FancyLink from "../../components/FancyLink.astro";
+export const components = { a: FancyLink };
+
+At first I really wasn't sure if I wanted to implement a comments system from scratch. There are lots of good options available out of the box that support comments like [welcomments](https://welcomments.io/) and [jamcomments](https://jamcomments.com/docs/integrations/astro/). Ultimately, however, it came down to me being stingy bastard and preferring a bit of a struggle handcoding it than paying 10 buckeroos a month.
+
+## A disclaimer
+
+It's worth pointing out nice an early that I haven't done this _the static site way_. The typical static site way would be to have the comments statically defined in the HTML and only updated when the whole site is updated via git. Or perhaps some combination of static comments and hydration on the client. I avoided all this for a simple client-side only approach where the comments and fetched from the database when the page loads. This is slightly less performant that the aforementioned alternative, but it's simpler to code, and is easier to provide a good UX with.
+
+## Adding a comment to the database
+
+Scroll down and take a look at the comments section. This is what we are talking about. What happens when you add a comment?
+
+The HTML for the form looks like this:
+
+```html
+<!-- Comments.astro -->
+
+<form id="add-comment">
+	<!-- Unique to each blog post -->
+	<input type="hidden" aria-hidden="true" name="id" value="{id}" />
+	<label for="name-field-comment">Name</label>
+	<input type="text" name="name" id="name-field-comment" required />
+
+	<!-- Honeypot -->
+	<fieldset class="visually-hidden" aria-hidden="true">
+		<label for="last-name-field">Last Name:</label>
+		<input
+			type="text"
+			id="last-name-field"
+			name="last_name"
+			autocomplete="off"
+			tabindex="-1"
+		/>
+	</fieldset>
+	<label for="comment-field">Comment</label>
+	<textarea rows="6" name="comment" id="comment-field" required></textarea>
+	<div class="text-right">
+		<input type="submit" id="comment-submit-btn" value="Add Comment" />
+	</div>
+</form>
+```
+
+Pretty standard HTML form right? But what about this bit?
+
+```html
+<input type="hidden" aria-hidden="true" name="id" value="{id}" />
+```
+
+This will make sense later but essentially it's a unique identifier for each blog post. This makes it easy to determine which comments belong to which blog post. The id begins it's life in the blog posts markdown file in the frontmatter `id: "my-id"`, is then passed to the `Comments` component as a prop, and finally is added to the form as a hidden input.
+
+```jsx
+// In the blog post (blog-post.mdx)
+---
+layout: ../../layouts/BlogLayout.astro
+id: "build-blog-pt-4"
+---
+
+// In the Blog Layout component (BlogLayout.astro)
+<Comments id="{frontmatter.id}" />
+
+// In the Comments component (Comments.astro)
+---
+const { id } = Astro.props;
+---
+
+<input type="hidden" aria-hidden="true" name="id" value="{id}" />
+```
+
+The string `build-blog-pt-4` is passed through a few components for use in our comment form.
+
+Now let's take a look at the JavaScript that handles the form submission.
+
+```js
+const commentForm = document.getElementById("add-comment");
+commentForm.addEventListener("submit", async event => {
+	event.preventDefault();
+	const formData = Object.fromEntries(new FormData(commentForm));
+	const response = await fetch("/.netlify/functions/add-comment", {
+		method: "POST",
+		body: JSON.stringify({
+			name: formData.name,
+			comment: formData.comment,
+			last_name: formData.last_name,
+			blog_id: formData.id,
+			blog_url: window.location.href
+		})
+	}).then(result => result.json());
+	commentForm.reset();
+	if (response.status === 429) {
+		alert(
+			"Whoa there, slow down. Maximum of 2 comments every minute please! 🙏"
+		);
+	}
+	if (response.message !== "Honeypot triggered") {
+		getComments();
+	}
+});
+```
+
+There are a few things happening here:
+
+1. We get the form element and add an event listener for the `submit` event.
+2. We prevent the default form submission behaviour.
+3. We get the form data and convert it to a JavaScript object.
+4. We send the form data to our serverless function.
+5. We reset the form.
+6. We check the response from the serverless function.
+7. If the response is a 429 (too many requests) we alert the user.
+8. If the response is not a honeypot trigger we fetch the comments again.
