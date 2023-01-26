@@ -6,14 +6,14 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "astro build",
+		"build": "astro build && npx --yes @divriots/jampack ./dist",
 		"preview": "astro preview",
 		"astro": "astro"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^0.12.1",
 		"@supabase/supabase-js": "^2.1.1",
-		"astro": "^1.6.14",
+		"astro": "^2.0.1",
 		"dotenv": "^16.0.3",
 		"lambda-rate-limiter": "^3.0.1"
 	}
