@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import buildSendPromise from '../utils/sendEmail'
 const rateLimit = require("lambda-rate-limiter")({
@@ -43,8 +43,6 @@ export const handler = async (event, context) => {
 
 	const sendPromise = buildSendPromise(`🎉 New Blog Comment: ${name}`, `New Blog Comment: ${name} - ${blog_url} - ${comment}`);
 	await sendPromise();
-
-	console.log(data, error)
 
 	return {
 		statusCode: 200,

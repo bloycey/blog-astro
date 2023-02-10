@@ -1,10 +1,10 @@
 ---
 layout: ../../layouts/BlogLayout.astro
 title: "Blog comments using Astro and Supabase"
-date: "01-22-2023"
+date: "02-10-2023"
 id: "build-blog-pt-4"
 description: "Comments, spam protection, and rate limiting."
-draft: true
+draft: false
 ---
 
 import FancyLink from "../../components/FancyLink.astro";
@@ -14,7 +14,7 @@ At first I really wasn't sure if I wanted to implement a comments system from sc
 
 ## A disclaimer
 
-It's worth pointing out nice an early that I haven't done this _the static site way_. The typical static site way would be to have the comments statically defined in the HTML and only updated when the whole site is updated via git. Or perhaps some combination of static comments and hydration on the client. I avoided all this for a simple client-side only approach where the comments and fetched from the database when the page loads. This is slightly less performant that the aforementioned alternative, but it's simpler to code, and is easier to provide a good UX with.
+It's worth pointing out nice an early that I haven't done this _the static site way_. The typical static site way would be to have the comments statically defined in the HTML and only updated when the whole site is updated via git. Or perhaps some combination of static comments and hydration on the client. I avoided all this for a simple client-side only approach where the comments and fetched from the database when the page loads. This is slightly less performant that the aforementioned alternative, but it's simpler to code, and makes it easier to provide a nice UX.
 
 ## Adding a comment to the database
 
@@ -117,3 +117,140 @@ There are a few things happening here:
 6. We check the response from the serverless function.
 7. If the response is a 429 (too many requests) we alert the user.
 8. If the response is not a honeypot trigger we fetch the comments again.
+
+## Honeypots
+
+I go into detail about how honeypots work in a previous [blog post](https://bloycey.blog/posts/using-supabase-to-store-a-subscriber-list/) so I won't cover it in detail. The short version is that we add a hidden field to the form that is hidden from the user. If the user fills out the field we know they are a bot and we can ignore the form submission.
+
+## Rate Limiting
+
+You can see that it's possible for the user to get a `429 - Too many requests` response. But how did I do this?
+
+Let's take a look at the serverless function that we post the data too.
+
+```js
+import * as dotenv from "dotenv";
+import { createClient } from "@supabase/supabase-js";
+const rateLimit = require("lambda-rate-limiter")({
+	interval: 60 * 1000 // Our rate-limit interval, one minute
+}).check;
+
+dotenv.config();
+
+// Create a single supabase client for interacting with your database
+const supabase = createClient(process.env.DATABASE, process.env.DATABASE_KEY);
+
+export const handler = async (event, context) => {
+	const { name, comment, blog_id, last_name, blog_url } = JSON.parse(
+		event.body
+	);
+	try {
+		// 2 stands for the maximum amount of requests allowed during the defined interval
+		// rateLimit now returns a promise, let's await for it! (◕‿◕✿)
+		await rateLimit(2, event.headers["client-ip"]);
+	} catch (error) {
+		return {
+			statusCode: 429,
+			body: JSON.stringify({
+				status: 429,
+				message: "Too Many Requests"
+			})
+		}; // Still returning a basic 429, but we could do anything ~
+	}
+	if (last_name) {
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				status: 200,
+				message: "Honeypot triggered"
+			})
+		};
+	}
+
+	const { data, error } = await supabase
+		.from("comments")
+		.insert({ name, comment, blog_id })
+		.select();
+
+	return {
+		statusCode: 200,
+		body: JSON.stringify({
+			status: 200,
+			message: data,
+			error: error
+		})
+	};
+};
+```
+
+You might notice that the heavy lifting is done by the beautiful [lambda-rate-limiter](https://www.npmjs.com/package/lambda-rate-limiter) package. This package allows us to rate limit our serverless function. In this case we are limiting the function to 2 requests per minute.
+
+It's worth giving credit to [this blog post](https://lihbr.com/posts/rate-limiting-without-overhead-netlify-or-vercel-functions) which covers the topic is significantly more detail than I'm going to go into here. Overall, this sort of solution **is not** perfect, but it should work well enough for my use case - preventing my blog comments from being spammed with viagra ads.
+
+## Displaying the comments
+
+When displaying the comments I borrow a few patterns commonly used in conjunction with Web Components - namely the `template` html tag. Here's what the HTML looks like:
+
+```html
+<section class="comments-section">
+	<h3 class="comments-title display-none">Comments:</h3>
+	<h3 class="empty-comments display-none">No comments yet.</h3>
+	<template id="comment-template">
+		<li class="single-comment">
+			<div class="comment-header">
+				<p class="comment-date"></p>
+				<p class="author">
+					<span class="comment-author"></span> says...
+				</p>
+			</div>
+			<p class="comment-body"></p>
+		</li>
+	</template>
+	<ul id="comments-list"></ul>
+</section>
+```
+
+The `template` tag is sort of like a storage container for HTML. It's not visible to the user and it's not rendered by the browser. It's just there to be used by JavaScript when you need it. I much prefer this strategy to using a string literal in JavaScript or the definitively **worst way**: manually creating the DOM structure using `document.createElement()` 😱.
+
+Using the template tag I can fetch the comments and display them like so:
+
+```js
+const getComments = async () => {
+	const commentsList = document.getElementById("comments-list");
+	const commentTemplate = document.getElementById("comment-template");
+	commentsList.innerHTML = "";
+
+	const response = await fetch(
+		`/.netlify/functions/get-comments?id=${id}`
+	).then(response => response.json());
+
+	response.message
+		.sort(
+			(a, b) =>
+				Number(new Date(b.created_at)) -
+				Number(new Date(a.created_at))
+		)
+		.forEach(comment => {
+			const clone = commentTemplate.content.cloneNode(true);
+			const author = clone.querySelector(".comment-author");
+			const body = clone.querySelector(".comment-body");
+			const date = clone.querySelector(".comment-date");
+			author.textContent = comment.name;
+			body.textContent = comment.comment;
+			date.textContent = new Date(comment.created_at).toDateString();
+			commentsList.appendChild(clone);
+		});
+};
+```
+
+Here I am:
+
+1. Fetching the comments from the serverless function.
+2. Sorting the comments by date.
+3. Cloning the template.
+4. Setting the author, body, and date.
+5. Appending the comment to the list.
+
+The template tag is really useful here and helps to keep my JavaScript clean and readable. If I were to go a step further a might consider making the whole Comments component a web component, but I'll leave that for another day.
+
+Let me know in the comments below what you think of this approach, hopefully if you're implementing a similar thing on your own blog these steps will be helpful.

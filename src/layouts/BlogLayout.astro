@@ -10,7 +10,7 @@ const { frontmatter } = Astro.props;
 	image={frontmatter.image}
 	description={frontmatter.description}
 >
-	<article class="blog" data-blog-id={frontmatter.id}>
+	<article class="blog">
 		<div class="magic-grid">
 			<span class="blog-date mono"
 				>{new Date(frontmatter.date).toDateString()}</span
@@ -32,7 +32,6 @@ const { frontmatter } = Astro.props;
 		margin-top: 1rem !important;
 		margin-bottom: 2rem;
 	}
-
 	.underline {
 		margin-top: -0.75rem;
 	}

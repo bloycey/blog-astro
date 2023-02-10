@@ -44,9 +44,8 @@ const { id } = Astro.props;
 	</section>
 </div>
 
-<script>
+<script define:vars={{ id }}>
 	const getComments = async () => {
-		const id = document.querySelector("[data-blog-id]").dataset.blogId;
 		const commentsList = document.getElementById("comments-list");
 		const commentTemplate = document.getElementById("comment-template");
 		const commentsTitle = document.querySelector(".comments-title");
