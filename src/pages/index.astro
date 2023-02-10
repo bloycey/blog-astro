@@ -11,17 +11,21 @@ const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
 <BaseLayout title="🦄">
 	<div class="container">
 		<section class="hero-wrapper">
-			<h1>Bloycey's Blog</h1>
+			<div>
+				<h1>Bloycey's Blog</h1>
+				<p class="subtitle">Hot takes on web tech 🔥 Thoughts on design 🎨<br> Parenting anecdotes 👨‍👩‍👦</p>
+			</div>
 			<div class="underline">
 				<Underline />
 			</div>
 			<div class="andrew-img">
 				<img
-					src={andrewImg}
-					alt="A cartoon of Andrew Bloyce - the author of this blog."
+				src={andrewImg}
+				alt="A cartoon of Andrew Bloyce - the author of this blog."
 				/>
 				<div class="shadow"></div>
 			</div>
+
 		</section>
 		<ul class="blogs-list">
 			{
@@ -50,6 +54,9 @@ const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
 </BaseLayout>
 
 <style>
+	.subtitle {
+		display: none;
+	}
 	.shadow {
 		width: 100%;
 		border-radius: 100%;
@@ -96,10 +103,16 @@ const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
 			display: none;
 		}
 
+		.subtitle {
+			display: block;
+			margin-top: 1rem;
+		}
+
 		.hero-wrapper {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			margin-bottom: 1.5rem;
 		}
 		.hero-wrapper h1 {
 			margin-top: 0;
