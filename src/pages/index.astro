@@ -4,8 +4,9 @@ import BlogThumbnail from "../components/BlogThumbnail.astro";
 import andrewImg from "../images/andrew.svg";
 import Underline from "../components/Underline.astro";
 
-const posts = await Astro.glob("./posts/*.mdx");
-const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
+import { getCollection } from 'astro:content';
+const blogEntries = await getCollection('blog');
+const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
 ---
 
 <BaseLayout title="🦄">
@@ -32,18 +33,18 @@ const nonDraftPosts = posts.filter(post => !post.frontmatter.draft);
 				nonDraftPosts
 					.sort(
 						(a, b) =>
-							Number(new Date(b.frontmatter.date)) -
-							Number(new Date(a.frontmatter.date))
+							Number(new Date(b.data.date)) -
+							Number(new Date(a.data.date))
 					)
 					.map(post => {
-						const { date, title, description } = post.frontmatter;
+						const { date, title, description } = post.data;
 						return (
 							<li>
 								<BlogThumbnail
 									date={date}
 									title={title}
 									description={description}
-									url={post.url}
+									url={`/posts/${post.slug}`}
 								/>
 							</li>
 						);
