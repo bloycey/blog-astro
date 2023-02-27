@@ -1,8 +1,9 @@
-- How I build this blog: Why I ❤️ Astro
-- How I built this blog: Comments
-- How I built this blog: Subscribers
+
+
+
 - How I build this blog: Email Newsletter (with AWS SES)
 - Wavy dividers - the simple way.
 - Getting fonts
+- Air conditioner remote
 
 - How I'm dealing with images. Is this ok? _Sidenote_: I've actually been hosting my images using github by simply copying and pasting images into the github markdown editor. Essentially I'm hotlinking to github's servers to access my images. This might not be the _best practice_ here but the convenience factor makes it worth it for me, and I trust github's servers to have a decent response time. 🤷‍♂️

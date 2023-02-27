@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogThumbnail from "../../components/BlogThumbnail.astro";
+import Underline from "../../components/Underline.astro";
+
+import { getCollection } from 'astro:content';
+export async function getStaticPaths({ paginate }) {
+	const blogEntries = await getCollection('blog');
+	const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
+  return paginate(nonDraftPosts, { pageSize: 2 });
+}
+const { page } = Astro.props;
+---
+
+<BaseLayout title="🦄">
+	<div class="container">
+		<div class="blog-header">
+			<h1>Blog</h1>
+			<div class="underline">
+				<Underline />
+			</div>
+		</div>
+		<ul class="blogs-list">
+			{
+				page.data
+					.sort(
+						(a, b) =>
+							Number(new Date(b.data.date)) -
+							Number(new Date(a.data.date))
+					)
+					.map(post => {
+						const { date, title, description } = post.data;
+						return (
+							<li>
+								<BlogThumbnail
+									date={date}
+									title={title}
+									description={description}
+									url={`/posts/${post.slug}`}
+								/>
+							</li>
+						);
+					})
+			}
+		</ul>
+		<div class="pagination-wrapper">
+			{page.url.prev && page.url.prev === "/blog/1" ? <a href="/">Previous Page</a> : null}
+			{page.url.prev && page.url.prev !== "/blog/1" ? <a href={page.url.prev}>Previous Page</a> : null}
+			{page.url.next ? <a href={page.url.next}>Next Page</a> : null}
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.blog-header {
+		padding-top: 2rem;
+	}
+
+	h1 {
+		margin-bottom: 0.5rem;
+		font-size: 2rem;
+	}
+
+	@media (min-width: 767px) {
+		.blog-header {
+			padding-bottom: 2rem;
+		}
+		.blog h1 {
+			font-size: 2.5rem;
+		}
+	}
+
+	.underline {
+		margin-top: -0.75em;
+	}
+
+	@media (min-width: 767px) {
+		.underline {
+			margin-top: 0;
+		}
+	}
+
+	.pagination-wrapper {
+		display: flex;
+		justify-content: space-between;
+		padding: 2rem 0;
+	}
+
+	.subtitle {
+		display: none;
+	}
+
+	.blogs-list {
+		padding-left: 0;
+		margin-top: 1rem;
+	}
+
+	@media (min-width: 767px) {
+		.blogs-list {
+			margin: 0;
+		}
+	}
+
+	.blogs-list li {
+		list-style: none;
+		margin-bottom: 2.5rem;
+	}
+</style>

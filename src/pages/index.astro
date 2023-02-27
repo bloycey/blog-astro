@@ -3,10 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogThumbnail from "../components/BlogThumbnail.astro";
 import andrewImg from "../images/andrew.svg";
 import Underline from "../components/Underline.astro";
+import { BLOGS_PER_PAGE } from "../utils/globalVars";
 
 import { getCollection } from 'astro:content';
 const blogEntries = await getCollection('blog');
 const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
+const paginatedPosts = nonDraftPosts.slice(0, BLOGS_PER_PAGE);
 ---
 
 <BaseLayout title="🦄">
@@ -30,7 +32,7 @@ const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
 		</section>
 		<ul class="blogs-list">
 			{
-				nonDraftPosts
+				paginatedPosts
 					.sort(
 						(a, b) =>
 							Number(new Date(b.data.date)) -
@@ -51,10 +53,19 @@ const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
 					})
 			}
 		</ul>
+		{nonDraftPosts.length > BLOGS_PER_PAGE ? (
+			<div class="pagination-wrapper">
+				<a href="/blog/2">Next Page</a>
+			</div>
+		) : <div class="spacer"></div>}
 	</div>
 </BaseLayout>
 
 <style>
+	.spacer {
+		height: 2rem;
+	}
+
 	.subtitle {
 		display: none;
 	}
@@ -123,9 +134,13 @@ const nonDraftPosts = blogEntries.filter(post => !post.data.draft);
 		}
 	}
 
+	.pagination-wrapper {
+		text-align: right;
+		padding: 2rem 0;
+	}
+
 	.blogs-list {
 		padding-left: 0;
-		padding-bottom: 4rem;
 		margin-top: 1rem;
 	}
 
