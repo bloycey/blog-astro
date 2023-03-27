@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^0.12.1",
+		"@cloudinary/url-gen": "^1.9.1",
 		"@supabase/supabase-js": "^2.1.1",
 		"astro": "^2.0.14",
 		"dotenv": "^16.0.3",

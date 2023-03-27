@@ -1,0 +1,28 @@
+---
+import { Cloudinary } from "@cloudinary/url-gen";
+
+const cld = new Cloudinary({
+	cloud: {
+		cloudName: "diisvgudw"
+	}
+});
+
+const { src, ...props } = Astro.props;
+let cldSrc = cld
+	.image(src)
+	.format("auto")
+	.delivery("q_auto")
+	.resize(`w_${props.width || "980"}`);
+
+if (src.startsWith("https://")) {
+	cldSrc.setDeliveryType("fetch");
+}
+
+interface Props {
+	src: string;
+	width: string;
+	alt: string;
+}
+---
+
+<img src={cldSrc.toURL()} loading="lazy" {...props} />

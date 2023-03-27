@@ -88,6 +88,13 @@ declare module 'astro:content' {
   collection: "blog",
   data: any
 },
+"learning-ux-from-the-air-conditioner-remote.mdx": {
+  id: "learning-ux-from-the-air-conditioner-remote.mdx",
+  slug: "learning-ux-from-the-air-conditioner-remote",
+  body: string,
+  collection: "blog",
+  data: any
+},
 "two-minute-method-for-getting-newborn-to-sleep.mdx": {
   id: "two-minute-method-for-getting-newborn-to-sleep.mdx",
   slug: "two-minute-method-for-getting-newborn-to-sleep",

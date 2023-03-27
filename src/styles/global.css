@@ -164,6 +164,12 @@ html {
 	}
 }
 
+img,
+table,
+details {
+	margin-bottom: 1.5rem;
+}
+
 body::-webkit-scrollbar {
 	width: 16px;
 }
