@@ -37,12 +37,11 @@ export const handler = async (event, context) => {
 		}
 	}
 
-	const sanitisedComment = sanitizer.value(comment, 'string');
-	const sanitisedName = sanitizer.value(name, 'string');
+	const sanitisedContent = sanitizer.primitives({ name, comment })
 
 	const { data, error } = await supabase
 		.from('comments')
-		.insert({ name: sanitisedName, comment: sanitisedComment, blog_id })
+		.insert({ name: sanitisedContent.name, comment: sanitisedContent.comment, blog_id })
 		.select()
 
 	const sendPromise = buildSendPromise(`🎉 New Blog Comment: ${name}`, `New Blog Comment: ${name} - ${blog_url} - ${comment}`);
