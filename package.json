@@ -16,6 +16,7 @@
 		"@supabase/supabase-js": "^2.1.1",
 		"astro": "^2.0.14",
 		"dotenv": "^16.0.3",
-		"lambda-rate-limiter": "^3.0.1"
+		"lambda-rate-limiter": "^3.0.1",
+		"sanitize": "^2.1.2"
 	}
 }

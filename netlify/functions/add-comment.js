@@ -4,6 +4,7 @@ import buildSendPromise from '../utils/sendEmail'
 const rateLimit = require("lambda-rate-limiter")({
 	interval: 60 * 1000 // Our rate-limit interval, one minute
 }).check;
+const sanitizer = require('sanitize')();
 
 dotenv.config()
 
@@ -36,9 +37,12 @@ export const handler = async (event, context) => {
 		}
 	}
 
+	const sanitisedComment = sanitizer.value(comment, 'string');
+	const sanitisedName = sanitizer.value(name, 'string');
+
 	const { data, error } = await supabase
 		.from('comments')
-		.insert({ name, comment, blog_id })
+		.insert({ name: sanitisedName, comment: sanitisedComment, blog_id })
 		.select()
 
 	const sendPromise = buildSendPromise(`🎉 New Blog Comment: ${name}`, `New Blog Comment: ${name} - ${blog_url} - ${comment}`);
